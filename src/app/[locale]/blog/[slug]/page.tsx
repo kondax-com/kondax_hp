@@ -23,7 +23,7 @@ interface PostPageProps {
 
 export async function generateMetadata({ params }: PostPageProps): Promise<Metadata> {
   const { slug, locale } = await params
-  const post = await getBlogPost(slug)
+  const post = await getBlogPost(slug, locale)
   const t = await getTranslations({ locale, namespace: 'BlogPage' })
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
   return {
