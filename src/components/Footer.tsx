@@ -90,7 +90,7 @@ export function Footer() {
         </div>
         <div className="mt-12 mb-10 flex flex-wrap items-end justify-end gap-x-6 gap-y-4 border-t border-neutral-950/10 pt-12">
           <p className="text-xs text-neutral-700">
-            © KONDAX Inc. {new Date().getFullYear()}
+            © KONDAX {new Date().getFullYear()}
           </p>
         </div>
       </FadeIn>
