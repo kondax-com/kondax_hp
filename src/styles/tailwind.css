@@ -46,6 +46,30 @@
   --animate-float: float-random 12s ease-in-out infinite;
   --animate-float-tilt: float-tilt 8s ease-in-out infinite;
   --animate-slime: slime-morph 12s ease-in-out infinite;
+  --animate-yadora-float: yadora-float 5.8s ease-in-out infinite;
+  --animate-yadora-shadow: yadora-shadow 5.8s ease-in-out infinite;
+}
+
+@keyframes yadora-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -12px, 0);
+  }
+}
+
+@keyframes yadora-shadow {
+  0%,
+  100% {
+    opacity: 0.32;
+    transform: scaleX(1);
+  }
+  50% {
+    opacity: 0.18;
+    transform: scaleX(0.88);
+  }
 }
 
 @keyframes float-random {
