@@ -13,7 +13,7 @@ Replace the synthetic dashboard, glow effects, pill badges, and repeated icon ca
 
 ## Page changes
 
-- Case-study hero: concise title and actions followed by the supplied full-width product screenshot.
+- Case-study hero: supplied full-width product screenshot first, followed by the concise title and actions.
 - Project information: three-column ruled metadata block.
 - Challenge, flow, platform, and operations: simplified numbered layouts with fewer icons.
 - Product value and CTA: compact, high-contrast editorial sections.
