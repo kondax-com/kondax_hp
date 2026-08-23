@@ -220,9 +220,13 @@ export async function YadoraShowcase({ locale }: { locale: string }) {
           </div>
 
           <FadeIn className="mt-14 sm:mt-18">
-            <figure>
-              <div className="border border-neutral-800 bg-[#111311] p-1.5 shadow-[0_32px_80px_rgba(17,19,17,0.18)] sm:p-2.5">
-                <div className="relative aspect-[1306/777] overflow-hidden bg-[#151816]">
+            <figure className="relative">
+              <div
+                aria-hidden="true"
+                className="absolute right-[8%] -bottom-1 left-[8%] h-8 rounded-full bg-neutral-950/30 blur-2xl motion-safe:animate-yadora-shadow"
+              />
+              <div className="relative overflow-hidden rounded-[1.75rem] border border-neutral-800 bg-[#111311] p-1.5 shadow-[0_36px_90px_rgba(17,19,17,0.2),0_12px_30px_rgba(17,19,17,0.12)] motion-safe:animate-yadora-float motion-safe:will-change-transform sm:rounded-[2.25rem] sm:p-2.5">
+                <div className="relative aspect-[1306/777] overflow-hidden rounded-[1.35rem] bg-[#151816] sm:rounded-[1.75rem]">
                   <Image
                     src={productImage}
                     alt={t('intro.imageAlt')}
@@ -233,7 +237,7 @@ export async function YadoraShowcase({ locale }: { locale: string }) {
                   />
                 </div>
               </div>
-              <figcaption className="mt-4 flex items-center justify-between gap-4 text-[10px] font-semibold tracking-[0.2em] text-neutral-400 uppercase sm:text-xs">
+              <figcaption className="mt-6 flex items-center justify-between gap-4 text-[10px] font-semibold tracking-[0.2em] text-neutral-400 uppercase sm:mt-7 sm:text-xs">
                 <span>{t('intro.imageCaption')}</span>
                 <span aria-hidden="true">KONDAX × Yadora</span>
               </figcaption>

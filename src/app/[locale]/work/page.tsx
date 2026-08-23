@@ -61,9 +61,13 @@ async function FeaturedYadora({ locale }: { locale: string }) {
             <Link
               href="/work/yadora"
               aria-label={t('featured.button')}
-              className="block border border-neutral-800 bg-[#111311] p-1.5 shadow-[0_24px_60px_rgba(17,19,17,0.16)] focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-4 focus-visible:outline-none sm:p-2"
+              className="relative isolate block rounded-[1.75rem] border border-neutral-800 bg-[#111311] p-1.5 shadow-[0_28px_70px_rgba(17,19,17,0.18),0_10px_24px_rgba(17,19,17,0.1)] focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-4 focus-visible:outline-none motion-safe:animate-yadora-float motion-safe:will-change-transform sm:rounded-[2rem] sm:p-2"
             >
-              <div className="relative aspect-[1306/777] overflow-hidden bg-[#151816]">
+              <span
+                aria-hidden="true"
+                className="absolute right-[8%] -bottom-5 left-[8%] -z-10 h-8 rounded-full bg-neutral-950/25 blur-2xl motion-safe:animate-yadora-shadow"
+              />
+              <div className="relative aspect-[1306/777] overflow-hidden rounded-[1.35rem] bg-[#151816] sm:rounded-[1.55rem]">
                 <Image
                   src="/images/yadora/yadora-hero.png"
                   alt=""
