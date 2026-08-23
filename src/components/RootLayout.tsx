@@ -134,7 +134,7 @@ function NavigationItem({
 
 function Navigation() {
   const t = useTranslations('Navigation')
-  
+
   return (
     <>
       <div className="flex justify-end bg-neutral-950 p-4 sm:hidden">
@@ -154,7 +154,7 @@ function Navigation() {
           <NavigationItem href="/process">{t('process')}</NavigationItem>
         </NavigationRow>
         <NavigationRow>
-          <NavigationItem href="/work/bocker">{t('bocker')}</NavigationItem>
+          <NavigationItem href="/work/yadora">{t('yadora')}</NavigationItem>
           <NavigationItem href="/work/gallery">{t('gallery')}</NavigationItem>
         </NavigationRow>
       </nav>
@@ -249,7 +249,6 @@ function RootLayoutInner({ children }: { children: React.ReactNode }) {
             <Navigation />
             <div className="relative bg-neutral-950 before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-neutral-800">
               <Container>
-                
                 <div className="grid grid-cols-1 gap-y-10 pt-10 pb-16 sm:grid-cols-2 sm:pt-16">
                   <div>
                     <h2 className="font-display text-base font-semibold text-white">

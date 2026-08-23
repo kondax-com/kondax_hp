@@ -10,7 +10,7 @@ const navigation = [
   {
     title: 'Services',
     links: [
-      { title: 'Bocker', href: '/work/bocker' },
+      { title: 'Yadora', href: '/work/yadora' },
       { title: 'Gallery', href: '/work/gallery' },
       {
         title: (
@@ -84,7 +84,7 @@ export function Footer() {
       <FadeIn>
         <div className="grid grid-cols-1 gap-x-8 gap-y-16 lg:grid-cols-2">
           <Navigation />
-          <div className="flex lg:justify-end w-full">
+          <div className="flex w-full lg:justify-end">
             <FooterContent />
           </div>
         </div>
