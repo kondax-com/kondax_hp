@@ -1,21 +1,111 @@
-import { type Metadata } from 'next'
+import { ArrowUpRight, BedDouble, Sparkles, UsersRound } from 'lucide-react'
+import type { Metadata } from 'next'
 import Image from 'next/image'
-import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
+
 import { Blockquote } from '@/components/Blockquote'
 import { Border } from '@/components/Border'
 import { Button } from '@/components/Button'
 import { ContactSection } from '@/components/ContactSection'
 import { Container } from '@/components/Container'
-import { FadeIn, FadeInStagger } from '@/components/FadeIn'
+import { FadeIn } from '@/components/FadeIn'
 import { PageIntro } from '@/components/PageIntro'
-import { Testimonial } from '@/components/Testimonial'
+import { Link } from '@/i18n/routing'
 import { formatDate } from '@/lib/formatDate'
 import { type CaseStudy, type MDXEntry, loadCaseStudies } from '@/lib/mdx'
 
-/* =========================
-   CaseStudies（実績あり時）
-========================= */
+async function FeaturedYadora({ locale }: { locale: string }) {
+  const t = await getTranslations({ locale, namespace: 'WorkPage' })
+  const tags = [
+    t('featured.tags.tag1'),
+    t('featured.tags.tag2'),
+    t('featured.tags.tag3'),
+  ]
+
+  return (
+    <Container className="mt-20 sm:mt-24">
+      <FadeIn>
+        <article className="relative isolate overflow-hidden rounded-[2.5rem] bg-[#071f18] px-6 py-10 text-white sm:px-10 sm:py-14 lg:px-14">
+          <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_90%_10%,rgba(52,211,153,0.24),transparent_34%),radial-gradient(circle_at_10%_100%,rgba(201,255,122,0.10),transparent_30%)]" />
+          <div className="grid items-center gap-12 lg:grid-cols-[1.12fr_0.88fr]">
+            <div>
+              <p className="text-xs font-semibold tracking-[0.24em] text-emerald-300 uppercase">
+                {t('featured.eyebrow')}
+              </p>
+              <h2 className="mt-5 font-display text-3xl font-medium tracking-tight sm:text-4xl lg:text-5xl">
+                <Link href="/work/yadora">{t('featured.title')}</Link>
+              </h2>
+              <p className="mt-6 max-w-2xl text-sm leading-7 text-white/60 sm:text-base sm:leading-8">
+                {t('featured.description')}
+              </p>
+              <div className="mt-7 flex flex-wrap gap-2">
+                {tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-xs text-white/70"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+              <div className="mt-9">
+                <Button
+                  href="/work/yadora"
+                  invert
+                  className="gap-2 px-5 py-2.5"
+                >
+                  {t('featured.button')}
+                  <ArrowUpRight className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+
+            <div
+              aria-hidden="true"
+              className="relative mx-auto w-full max-w-md"
+            >
+              <div className="absolute inset-8 rounded-full bg-emerald-300/20 blur-3xl" />
+              <div className="relative rotate-1 rounded-[2rem] border border-white/10 bg-[#10261f] p-4 shadow-2xl shadow-black/30 transition-transform duration-500 hover:rotate-0">
+                <div className="flex items-center justify-between border-b border-white/10 pb-3">
+                  <div className="flex items-center gap-2 text-sm font-semibold">
+                    <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#19c48a] text-[#071f18]">
+                      Y
+                    </span>
+                    Yadora
+                  </div>
+                  <Sparkles className="h-4 w-4 text-[#c9ff7a]" />
+                </div>
+                <div className="mt-4 grid grid-cols-2 gap-3">
+                  <div className="rounded-2xl bg-white/5 p-4">
+                    <BedDouble className="h-5 w-5 text-emerald-300" />
+                    <p className="mt-5 text-2xl font-semibold">82%</p>
+                    <p className="mt-1 text-[10px] text-white/40">
+                      {t('featured.mockup.occupancy')}
+                    </p>
+                  </div>
+                  <div className="rounded-2xl bg-white/5 p-4">
+                    <UsersRound className="h-5 w-5 text-emerald-300" />
+                    <p className="mt-5 text-2xl font-semibold">24</p>
+                    <p className="mt-1 text-[10px] text-white/40">
+                      {t('featured.mockup.guests')}
+                    </p>
+                  </div>
+                  <div className="col-span-2 flex items-start gap-3 rounded-2xl bg-[#dffbed] p-4 text-[#10382b]">
+                    <Sparkles className="mt-0.5 h-4 w-4 shrink-0" />
+                    <p className="text-xs leading-5">
+                      {t('featured.mockup.suggestion')}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </FadeIn>
+    </Container>
+  )
+}
+
 async function CaseStudies({
   caseStudies,
   locale,
@@ -24,11 +114,12 @@ async function CaseStudies({
   locale: string
 }) {
   const t = await getTranslations({ locale, namespace: 'WorkPage' })
+
   return (
-    <Container className="mt-40">
+    <Container className="mt-32">
       <FadeIn>
         <h2 className="font-display text-2xl font-semibold text-neutral-950">
-          Case Studies
+          {t('case.heading')}
         </h2>
       </FadeIn>
       <div className="mt-10 space-y-20 sm:space-y-24 lg:space-y-32">
@@ -96,126 +187,6 @@ async function CaseStudies({
   )
 }
 
-/* =========================
-   CaseStudiesPlaceholder（準備中）
-========================= */
-async function CaseStudiesPlaceholder({ locale }: { locale: string }) {
-  const t = await getTranslations({ locale, namespace: 'WorkPage' })
-  return (
-    <Container className="mt-32">
-      <FadeIn>
-        <div className="rounded-3xl bg-neutral-950 p-6 text-white sm:p-12 md:p-10">
-          <h2 className="font-display text-2xl font-semibold sm:text-3xl">
-            {t('placeholder.heading')}
-          </h2>
-          <p className="mt-4 text-neutral-300">
-            {t.rich('placeholder.subheading', {
-              strong: (c) => <strong className="text-white">{c}</strong>,
-            })}
-          </p>
-
-          <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
-            {[{ key: 'c1' }, { key: 'c2' }, { key: 'c3' }].map(({ key }) => (
-              <div
-                key={key}
-                className="rounded-2xl bg-white/5 p-4 ring-1 ring-white/10 transition-colors hover:bg-white/10 md:p-6"
-              >
-                <div className="mb-3 flex items-center justify-between">
-                  <p className="text-lg font-semibold text-white">
-                    {t(`placeholder.${key}.title`)}
-                  </p>
-                  <div className="min-h-2 min-w-2 rounded-full bg-green-400" />
-                </div>
-                <p className="mb-3 text-sm text-neutral-400">
-                  {t(`placeholder.${key}.subtitle`)}
-                </p>
-                <p className="mb-4 text-sm text-neutral-300">
-                  {t(`placeholder.${key}.body`)}
-                </p>
-
-                <div className="mb-4 space-y-2">
-                  {[0, 1, 2].map((idx) => (
-                    <div
-                      key={idx}
-                      className="flex items-center text-xs text-neutral-400"
-                    >
-                      <div className="mr-2 h-1.5 w-1.5 rounded-full bg-green-400" />
-                      {t(`placeholder.${key}.results.${idx}`)}
-                    </div>
-                  ))}
-                </div>
-
-                <div className="font-mono text-xs text-neutral-500">
-                  {t(`placeholder.${key}.tech`)}
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-10 border-t border-white/10 pt-8">
-            <div className="flex flex-wrap gap-3">
-              <Button
-                href="/process"
-                aria-label={t('placeholder.ctaProcess')}
-                invert
-              >
-                {t('placeholder.ctaProcess')}
-              </Button>
-            </div>
-          </div>
-        </div>
-      </FadeIn>
-    </Container>
-  )
-}
-
-/* =========================
-   Clients（ロゴ）— 実績公開後に表示
-========================= */
-const clients: {
-  client: string
-  logo: string
-}[] = []
-
-function Clients() {
-  return (
-    <Container className="mt-24 sm:mt-32 lg:mt-40">
-      <FadeIn>
-        <h2 className="font-display text-2xl font-semibold text-neutral-950">
-          You’re in good company
-        </h2>
-      </FadeIn>
-      <FadeInStagger className="mt-10" faster>
-        <Border as={FadeIn} />
-        <ul
-          role="list"
-          className="grid grid-cols-2 gap-x-8 gap-y-12 sm:grid-cols-3 lg:grid-cols-4"
-        >
-          {clients.map(({ client, logo }) => (
-            <li key={client} className="group">
-              <FadeIn className="overflow-hidden">
-                <Border className="pt-12 group-nth-[-n+2]:-mt-px sm:group-nth-3:-mt-px lg:group-nth-4:-mt-px">
-                  <Image
-                    src={logo}
-                    alt={client as string}
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
-                    className="rounded-3xl object-contain"
-                    width={120}
-                    height={60}
-                  />
-                </Border>
-              </FadeIn>
-            </li>
-          ))}
-        </ul>
-      </FadeInStagger>
-    </Container>
-  )
-}
-
-/* =========================
-   Metadata
-========================= */
 interface Props {
   params: Promise<{ locale: string }>
 }
@@ -223,23 +194,23 @@ interface Props {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'WorkPage' })
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://kondax.com'
 
   return {
     title: t('og_title'),
     description: t('og_description'),
     alternates: {
-      canonical: 'https://kondax.com/' + locale + '/work',
+      canonical: `https://kondax.com/${locale}/work`,
     },
     openGraph: {
       title: t('og_title'),
       description: t('og_description'),
       type: 'website',
-      locale: locale,
+      locale,
       url: `${baseUrl}/${locale}/work`,
       images: [
         {
-          url: `${baseUrl}/apple-touch-icon.png`, // OGP画像への絶対パス
+          url: `${baseUrl}/apple-touch-icon.png`,
           width: 180,
           height: 180,
           alt: t('og_title'),
@@ -249,77 +220,26 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-/* =========================
-   Page
-========================= */
 export default async function Work({ params }: Props) {
   const { locale } = await params
   const caseStudies = await loadCaseStudies()
-  const hasCases = Array.isArray(caseStudies) && caseStudies.length > 0
   const t = await getTranslations({ locale, namespace: 'WorkPage' })
 
   return (
     <>
-      <PageIntro
-        eyebrow="Our Work"
-        title={hasCases ? t('intro.hasCases.title') : t('intro.noCases.title')}
-      >
+      <PageIntro eyebrow={t('intro.eyebrow')} title={t('intro.hasCases.title')}>
         <p className="text-sm text-neutral-600 md:text-base">
-          {hasCases
-            ? t('intro.hasCases.description')
-            : t('intro.noCases.description')}
+          {t('intro.hasCases.description')}
         </p>
-        {!hasCases && (
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Button href="/contact" aria-label={t('intro.noCases.ctaContact')}>
-              {t('intro.noCases.ctaContact')}
-            </Button>
-          </div>
-        )}
       </PageIntro>
 
-      {hasCases ? (
+      <FeaturedYadora locale={locale} />
+
+      {caseStudies.length > 0 && (
         <CaseStudies caseStudies={caseStudies} locale={locale} />
-      ) : (
-        <CaseStudiesPlaceholder locale={locale} />
-      )}
-
-      {/* 実績があるときのみテスティモニアル＆ロゴを表示 */}
-      {hasCases && (
-        <>
-          <Testimonial
-            className="mt-24 sm:mt-32 lg:mt-40"
-            client={{ name: 'Bocker', logo: '/images/mockup.webp' }}
-          >
-            {t('testimonial.text')}
-          </Testimonial>
-
-          <Clients />
-        </>
       )}
 
       <ContactSection />
     </>
   )
 }
-
-/* =========================
-   追記：ケース追加メモ（MDX例）
-   /content/case-studies/acme-automation.mdx を作成
-   ---
-   client: "ACME Inc."
-   service: "Automation / Workflow"
-   date: "2025-07-10"
-   title: "在庫同期90秒・手作業-70%を実現"
-   logo: "/images/clients/acme/logo.svg"
-   summary:
-     - "課題：在庫更新に月20時間、反映遅延で機会損失。"
-     - "解決：n8n×Inngestで在庫同期を自動化、例外は自動リトライ。"
-     - "結果：90秒以内で反映、工数-70%、売上+12%。"
-   testimonial:
-     author:
-       name: "山田 太郎"
-       role: "COO"
-     content: "最小構成で素早く立ち上がり、効果が出た領域のみ投資できました。"
-   ---
-========================= */

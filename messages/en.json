@@ -7,7 +7,7 @@
     "news": "News",
     "work": "Work",
     "contact": "Contact",
-    "bocker": "Bocker",
+    "yadora": "Yadora / Hospitality CRM",
     "gallery": "Gallery"
   },
   "HomePage": {
@@ -50,7 +50,10 @@
       "title": "Run the work of 30 with a team of 10.",
       "description": "<strong>Go live with a minimal setup → Verify with numbers → Invest only where it works.</strong>Edge computing × SQL × Workflows × AI enables small teams to operate at enterprise/international scale.90s inventory sync, −70% manual work, and optimized ops cost with Zero Trust security.",
       "stats": {
-        "stat1": { "value": "2 weeks~", "label": "Minimal setup, fastest delivery" },
+        "stat1": {
+          "value": "2 weeks~",
+          "label": "Minimal setup, fastest delivery"
+        },
         "stat2": { "value": "6 months~", "label": "ROI, sustained growth" },
         "stat3": { "value": "-70%", "label": "Less manual, lower cost" },
         "stat4": { "value": "5 min", "label": "Finish admin tasks" }
@@ -58,10 +61,7 @@
     }
   },
   "AnimationHeadLine": {
-    "lines": [
-      "Turn 10 people’s time",
-      "into the value of 30."
-    ],
+    "lines": ["Turn 10 people’s time", "into the value of 30."],
     "subtitle": {
       "p1": "Maximize ROI with <strong>revenue-driving system development</strong>. From AI adoption to automation and marketing, we support end-to-end to achieve <strong>payback within 6 months</strong>.",
       "p2": "Build a sustainable growth engine with an offensive, systemized approach."
@@ -89,9 +89,18 @@
       "title": "Start small, move fast, scale by results.",
       "description": "We launch with a minimal setup, align on numbers and improve continuously. We balance outcomes with safety (Zero Trust) tailored to your operations.",
       "items": {
-        "item1": { "title": "Outcome first", "body": "Prioritize results over features. Weekly sprints → KPI validation. Invest only where it works." },
-        "item2": { "title": "Speed × Validation", "body": "24h first reply and iterative PoCs keep decisions moving. We standardize non-stop operations." },
-        "item3": { "title": "Security & Trust", "body": "Zero Trust, least privilege, audit logs by default. Transparent operations build long-term trust." }
+        "item1": {
+          "title": "Outcome first",
+          "body": "Prioritize results over features. Weekly sprints → KPI validation. Invest only where it works."
+        },
+        "item2": {
+          "title": "Speed × Validation",
+          "body": "24h first reply and iterative PoCs keep decisions moving. We standardize non-stop operations."
+        },
+        "item3": {
+          "title": "Security & Trust",
+          "body": "Zero Trust, least privilege, audit logs by default. Transparent operations build long-term trust."
+        }
       }
     },
     "team": {
@@ -211,10 +220,22 @@
       "p3": "We demo working software every two weeks and review results numerically so you can <strong>feel the impact of your investment</strong>.",
       "values": {
         "title": "How this benefits you",
-        "i1": { "label": "Confidence", "body": "Daily updates and 2-week reviews make spending transparent." },
-        "i2": { "label": "Flexibility", "body": "Adapt to changes and new ideas without extra cost." },
-        "i3": { "label": "Early impact", "body": "See benefits from week one and scale with confidence." },
-        "i4": { "label": "Lower risk", "body": "Start small to avoid big failures and fix issues early." }
+        "i1": {
+          "label": "Confidence",
+          "body": "Daily updates and 2-week reviews make spending transparent."
+        },
+        "i2": {
+          "label": "Flexibility",
+          "body": "Adapt to changes and new ideas without extra cost."
+        },
+        "i3": {
+          "label": "Early impact",
+          "body": "See benefits from week one and scale with confidence."
+        },
+        "i4": {
+          "label": "Lower risk",
+          "body": "Start small to avoid big failures and fix issues early."
+        }
       }
     },
     "deliver": {
@@ -224,9 +245,18 @@
       "p3": "We measure <strong>impact</strong> with numbers (hours saved, cost reduced, revenue up) and propose further improvements if needed.",
       "tasks": {
         "title": "Activities in this phase",
-        "i1": { "title": "Phased go-live", "body": "<strong>1 week in test</strong>: validate features with real data<br></br><strong>1 week pilot</strong>: limited rollout to specific teams/users<br></br><strong>Company-wide</strong>: full launch after validation<br></br>Have a quick rollback plan just in case" },
-        "i2": { "title": "Enterprise-grade operations", "body": "<strong>Google Cloud/Vercel/Cloudflare</strong>: 99.99% uptime cloud infra<br></br><strong>24/7 monitoring</strong>: detect and act on anomalies fast<br></br><strong>Automated backups</strong>: daily with 30-day retention<br></br><strong>Security</strong>: SSL, access control, firewall<br></br><strong>ZERO TRUST</strong>: stronger data access posture" },
-        "i3": { "title": "Ongoing growth support", "body": "<strong>Monthly reviews</strong>: report impact and propose improvements<br></br><strong>Feature expansion</strong>: plan/implement as you grow<br></br><strong>Incident response</strong>: first response within 12h on average<br></br><strong>Training</strong>: regular sessions to boost adoption" }
+        "i1": {
+          "title": "Phased go-live",
+          "body": "<strong>1 week in test</strong>: validate features with real data<br></br><strong>1 week pilot</strong>: limited rollout to specific teams/users<br></br><strong>Company-wide</strong>: full launch after validation<br></br>Have a quick rollback plan just in case"
+        },
+        "i2": {
+          "title": "Enterprise-grade operations",
+          "body": "<strong>Google Cloud/Vercel/Cloudflare</strong>: 99.99% uptime cloud infra<br></br><strong>24/7 monitoring</strong>: detect and act on anomalies fast<br></br><strong>Automated backups</strong>: daily with 30-day retention<br></br><strong>Security</strong>: SSL, access control, firewall<br></br><strong>ZERO TRUST</strong>: stronger data access posture"
+        },
+        "i3": {
+          "title": "Ongoing growth support",
+          "body": "<strong>Monthly reviews</strong>: report impact and propose improvements<br></br><strong>Feature expansion</strong>: plan/implement as you grow<br></br><strong>Incident response</strong>: first response within 12h on average<br></br><strong>Training</strong>: regular sessions to boost adoption"
+        }
       }
     },
     "values": {
@@ -234,12 +264,30 @@
       "title": "Six values that fuel SMB growth",
       "description": "We deliver systems that <strong>show results, are easy to use, and make sense for cost</strong> — not enterprise-scale overkill. We grow with your business as a long-term partner.",
       "items": {
-        "i1": { "title": "Thorough listening", "body": "<strong>Frontline-focused</strong>: hear from actual users, not just execs<br></br><strong>Industry-aware</strong>: understand challenges across sectors<br></br><strong>Budget-fit</strong>: right-sized proposals from ¥50k–¥2M/month" },
-        "i2": { "title": "Reliable schedules", "body": "<strong>2-week progress checks</strong>: build in small wins<br></br><strong>Flexible to change</strong>: adjust scope without extra cost (large changes quoted)<br></br><strong>Evidence-based estimates</strong>: based on past delivery" },
-        "i3": { "title": "Ops-first design", "body": "<strong>Fit to your workflow</strong>: leverage existing processes<br></br><strong>Stepwise rollout</strong>: adapt gradually, not all at once<br></br><strong>Training included</strong>: ops manuals and sessions" },
-        "i4": { "title": "Clear reporting", "body": "<strong>Daily Slack updates</strong> in plain language<br></br><strong>Quantified results</strong>: hours saved, revenue up<br></br><strong>Early issue sharing</strong>: transparent risks and remedies" },
-        "i5": { "title": "Long-term partnership", "body": "<strong>Aftercare</strong>: 2 months free post-launch (then support plan)<br></br><strong>Scale with growth</strong>: expand systems as revenue rises<br></br><strong>Vendor changes</strong>: help with migration if needed" },
-        "i6": { "title": "Practical modern tech", "body": "<strong>AI for efficiency</strong>: automate docs and support<br></br><strong>Cloud-first</strong>: no servers to buy<br></br><strong>Security standard</strong>: privacy and encryption by default" }
+        "i1": {
+          "title": "Thorough listening",
+          "body": "<strong>Frontline-focused</strong>: hear from actual users, not just execs<br></br><strong>Industry-aware</strong>: understand challenges across sectors<br></br><strong>Budget-fit</strong>: right-sized proposals from ¥50k–¥2M/month"
+        },
+        "i2": {
+          "title": "Reliable schedules",
+          "body": "<strong>2-week progress checks</strong>: build in small wins<br></br><strong>Flexible to change</strong>: adjust scope without extra cost (large changes quoted)<br></br><strong>Evidence-based estimates</strong>: based on past delivery"
+        },
+        "i3": {
+          "title": "Ops-first design",
+          "body": "<strong>Fit to your workflow</strong>: leverage existing processes<br></br><strong>Stepwise rollout</strong>: adapt gradually, not all at once<br></br><strong>Training included</strong>: ops manuals and sessions"
+        },
+        "i4": {
+          "title": "Clear reporting",
+          "body": "<strong>Daily Slack updates</strong> in plain language<br></br><strong>Quantified results</strong>: hours saved, revenue up<br></br><strong>Early issue sharing</strong>: transparent risks and remedies"
+        },
+        "i5": {
+          "title": "Long-term partnership",
+          "body": "<strong>Aftercare</strong>: 2 months free post-launch (then support plan)<br></br><strong>Scale with growth</strong>: expand systems as revenue rises<br></br><strong>Vendor changes</strong>: help with migration if needed"
+        },
+        "i6": {
+          "title": "Practical modern tech",
+          "body": "<strong>AI for efficiency</strong>: automate docs and support<br></br><strong>Cloud-first</strong>: no servers to buy<br></br><strong>Security standard</strong>: privacy and encryption by default"
+        }
       }
     }
   },
@@ -249,6 +297,7 @@
     "og_title": "WORK | KONDAX",
     "og_description": "KONDAX's work - Explore our past projects and case studies.",
     "intro": {
+      "eyebrow": "Our Work",
       "hasCases": {
         "title": "Repeatable solutions to real-world problems.",
         "description": "We implement systems that let small teams do more with Edge × SQL × Workflows × AI. We disclose problem → solution → impact with numbers."
@@ -259,7 +308,23 @@
         "ctaContact": "Book a 30-minute intro call"
       }
     },
-    "case": { "button": "View details" },
+    "case": { "heading": "More case studies", "button": "View details" },
+    "featured": {
+      "eyebrow": "Featured Case Study / Hospitality",
+      "title": "Yadora — Turn guests into returning customers",
+      "description": "A hospitality operating system that grows guest relationships from a Wi-Fi QR touchpoint, then connects AI marketing, direct booking, reservations, guest registers and housekeeping in one place.",
+      "button": "View the Yadora case study",
+      "tags": {
+        "tag1": "Hospitality CRM",
+        "tag2": "AI marketing",
+        "tag3": "PMS & direct booking"
+      },
+      "mockup": {
+        "occupancy": "Occupancy",
+        "guests": "Guest profiles",
+        "suggestion": "Campaign suggested for returning guests during an open period"
+      }
+    },
     "placeholder": {
       "heading": "Great fits for our approach",
       "subheading": "Even if your case isn’t listed, we can proceed with a <strong>1-week PoC / 6-month ROI guideline</strong>.",
@@ -267,113 +332,194 @@
         "title": "Competitive analysis & data collection",
         "subtitle": "",
         "body": "Automate competitor pricing and lead list building via scraping. Cut manual effort by 85%.",
-        "results": ["Price research: 40h/wk → 2h", "Leads: 500/mo → 5,000/mo", "Effort: −85%"],
+        "results": [
+          "Price research: 40h/wk → 2h",
+          "Leads: 500/mo → 5,000/mo",
+          "Effort: −85%"
+        ],
         "tech": "n8n × Inngest × Realtime monitoring"
       },
       "c2": {
         "title": "LINE AI customer support",
         "subtitle": "",
         "body": "Build LINE AI chat with Cloudflare and Dify. 24/7 auto-response lifts CSAT significantly.",
-        "results": ["Response time: 24h → instant", "Auto-resolution: 78%", "CSAT: +31%"],
+        "results": [
+          "Response time: 24h → instant",
+          "Auto-resolution: 78%",
+          "CSAT: +31%"
+        ],
         "tech": "Cloudflare D1 × Workers × Dify × LINE API"
       },
       "c3": {
         "title": "Shopify affiliate system",
         "subtitle": "",
         "body": "Build an affiliate program via Shopify App. Achieved +45% revenue on a performance model.",
-        "results": ["Affiliates: 50 → 400", "Payout per result: +13%", "Revenue: +25%"],
+        "results": [
+          "Affiliates: 50 → 400",
+          "Payout per result: +13%",
+          "Revenue: +25%"
+        ],
         "tech": "Shopify App × Remix × Prisma × Webhook"
       },
       "ctaProcess": "See how we work together"
     },
-    "bocker": {
-      "description": "Share treatment history, photos, and notes with <strong>co-created client charts</strong> to cut on-site checks. <strong>Detailed sales × analytics</strong> identify repeat bottlenecks and guide next actions. <strong>AI workflow automation (planned)</strong> handles bookings → reminders → DMs. Powerful yet simple ops.",
-      "buttons": { "site": "Open official site", "monitor": "Join free beta" }
-    },
-    "testimonial": { "text": "Fast PoC and phased scaling stabilized our ops in weeks, and costs ended up optimized." }
+    "testimonial": {
+      "text": "Fast PoC and phased scaling stabilized our ops in weeks, and costs ended up optimized."
+    }
   },
-  "BockerPage": {
-    "title": "Service Introduction | Bocker - Beauty Salon Reservation Management System",
-    "description": "Next-generation SaaS reservation management platform with hybrid database configuration, supporting 3,000 salons simultaneously. Integrated with LINE and Stripe Connect for commercial-level scalability.",
+  "YadoraPage": {
+    "title": "Yadora | Hospitality CRM, AI Marketing & PMS Case Study | KONDAX",
+    "description": "A KONDAX case study for Yadora, an integrated hospitality platform covering Wi-Fi QR guest capture, CRM, AI campaigns, direct booking, reservations, guest registers and housekeeping.",
     "intro": {
-      "eyebrow": "Salon Management System",
-      "title": "Bocker",
-      "description": "Reduce on-site confirmation costs by sharing treatment history, photos, and notes through <strong>client charts co-created with customers</strong>. <strong>Detailed sales analysis × access analytics</strong> identify repeat visit bottlenecks and determine next strategies. <strong>AI automated workflow setup (※not yet implemented)</strong> automates routine tasks from booking reception to reminders and DMs. Multifunctional yet simple operation.",
+      "eyebrow": "Hospitality CRM / PMS",
+      "titleLead": "Turn one-time guests into",
+      "titleAccent": "returning customers.",
+      "description": "Guest relationships begin with a simple QR code in the room. With consent, contact details become a growing guest list; AI prepares campaigns and coupons, while the next stay can be booked directly without per-booking commission. Marketing, reservations, guest registers and housekeeping run as one connected operation.",
       "buttons": {
-        "officialSite": "View Official Site",
-        "monitorRecruitment": "Free Monitor Recruitment"
+        "officialSite": "Visit Yadora",
+        "contact": "Discuss a product"
       }
     },
     "projectInfo": {
-      "industry": {
-        "title": "Industry",
-        "item1": "Beauty Salons",
-        "item2": "Nail Salons",
-        "item3": "Hair Salons", 
-        "item4": "Personal Training"
+      "audience": {
+        "title": "For",
+        "item1": "Vacation rentals & guesthouses",
+        "item2": "Ryokan & small hotels",
+        "item3": "Multi-property operators"
       },
-      "features": {
-        "title": "Main Features",
-        "item1": "Reservation/Customer/Menu/Product Management",
-        "item2": "Points & Coupons",
-        "item3": "Access Analytics",
-        "item4": "Data Analysis",
-        "item5": "LINE Integration & SNS Marketing Platform"
+      "scope": {
+        "title": "Product scope",
+        "item1": "Hospitality CRM & PMS",
+        "item2": "AI marketing & direct booking",
+        "item3": "Guest and staff experiences",
+        "item4": "API & MCP integrations"
       },
-      "development": {
-        "title": "Development Roadmap",
-        "period": "12 months (ongoing development)"
+      "delivery": {
+        "title": "Engagement",
+        "item1": "Strategy, UX and development",
+        "item2": "Cloud operations and iteration"
       }
     },
-    "mainFeatures": {
-      "title": "Main Features",
-      "feature1": {
-        "title": "All-in-One Salon Management",
-        "description": "Complete all salon operations in one tool, from reservations to customer management, staff, and menu settings.",
-        "detail1": "Staff Management",
-        "detail2": "Menu Settings",
-        "detail3": "Options & Product Sales Features",
-        "detail4": "Automated Reminders & Notifications"
+    "dashboard": {
+      "menu": {
+        "dashboard": "Dashboard",
+        "properties": "Properties",
+        "reservations": "Reservations",
+        "guests": "Guests",
+        "marketing": "Marketing"
       },
-      "feature2": {
-        "title": "Advanced Chart Features Connecting with Customers",
-        "description": "Provide high-quality services tailored to each customer with electronic charts that can store images and audio. Encourage return visits with points and coupons.",
-        "detail1": "Customer Management & Chart Features (Image & Audio Input Support)",
-        "detail2": "Points & Coupon Features",
-        "detail3": "Detailed Analysis by Customer"
+      "metrics": {
+        "occupancy": "Occupancy",
+        "guests": "Guest profiles",
+        "bookings": "Direct bookings"
       },
-      "feature3": {
-        "title": "Overwhelming Capacity Supporting Business Growth",
-        "description": "Reservation numbers and customer registrations are virtually unlimited. Use with confidence from individual salons to multi-store expansion as your business grows.",
-        "detail1": "Perfect for Solo Salon Owners",
-        "detail2": "Maximum Reservations/Month: Unlimited (PRO)",
-        "detail3": "Maximum Customer Registrations: Unlimited (PRO)"
-      },
-      "feature4": {
-        "title": "Data Analysis and Reliable Support System",
-        "description": "Analyze sales and customer trends in detail, supporting management decisions based on data and salon-specific challenges. 24/7 chat support available.",
-        "detail1": "Detailed Sales Analysis",
-        "detail2": "Access Analytics Features",
-        "detail3": "Chat Support"
+      "chart": { "title": "Activity trend", "period": "Last 30 days" },
+      "ai": {
+        "title": "Recommended action",
+        "description": "A returning-guest campaign is ready for an upcoming open period.",
+        "badge": "AI operations assistant"
       }
     },
-    "reasons": {
-      "title": "Why Choose Bocker",
+    "challenge": {
+      "eyebrow": "The Challenge",
+      "title": "Every booking sent profit and customer relationships elsewhere.",
+      "description": "OTAs are powerful acquisition channels, but commissions compound as bookings grow and the relationship with each guest rarely remains with the property after checkout. For small teams already busy with reservations and housekeeping, consistent retention marketing was structurally difficult.",
       "item1": {
-        "title": "No Double Bookings",
-        "description": "Zero worry about multiple bookings at the same time. Prevent opportunity loss and boost sales"
+        "title": "OTA fees compress margins",
+        "description": "Sales commissions are commonly 10–20% of the stay. As bookings grow, that cost keeps weighing on profit."
       },
       "item2": {
-        "title": "Easy Booking via LINE",
-        "description": "Direct bookings from LINE used by 95% of customers. Easy new customer acquisition"
+        "title": "Guest relationships do not stay",
+        "description": "Without a direct way to invite guests back, the property has to pay to meet the same customer again."
       },
       "item3": {
-        "title": "Cut Business Hours in Half",
-        "description": "Free yourself from phone calls and handwritten management. Focus on customer service"
+        "title": "Retention work never reaches the top",
+        "description": "Daily reservations and housekeeping come first, leaving little time to create and manage recurring campaigns."
+      }
+    },
+    "flow": {
+      "eyebrow": "How It Works",
+      "title": "Place it. Grow it. Bring them back.",
+      "description": "No special hardware or construction. A QR code in the room starts a loop that grows the property’s guest list and direct bookings.",
+      "step1": {
+        "title": "Place the QR code in the room",
+        "description": "Register the property and Wi-Fi details, then print the generated connection QR. Setup takes only minutes."
+      },
+      "step2": {
+        "title": "Build a guest list naturally",
+        "description": "With consent, Wi-Fi access, guest-register details and booking history are organized around each guest profile."
+      },
+      "step3": {
+        "title": "Let AI invite guests back",
+        "description": "AI drafts the segment and message. Approve the campaign and turn a past stay into the next direct booking."
+      }
+    },
+    "features": {
+      "eyebrow": "Core Platform",
+      "title": "Collect. Re-engage. Sell direct.",
+      "description": "The core platform turns guest relationships into an asset and runs marketing and day-to-day operations on the same data.",
+      "item1": {
+        "title": "Automatic guest-list growth",
+        "description": "Consented guest data from Wi-Fi access, registers and bookings becomes a unified, cross-property stay history."
+      },
+      "item2": {
+        "title": "AI-powered retention marketing",
+        "description": "AI drafts segments, campaigns and coupons, tracks opens and helps reactivate guests who have not returned."
+      },
+      "item3": {
+        "title": "Direct booking website",
+        "description": "Publish from a template with live availability, rates and Stripe payments—without a per-booking commission."
       },
       "item4": {
-        "title": "Visible Sales Data",
-        "description": "Automatically analyze popular menus and busy hours. Make strategic management decisions"
+        "title": "Unified inventory and rates",
+        "description": "Manage inventory from property to bed across four levels and sync OTA calendars over iCal to prevent double bookings."
+      },
+      "item5": {
+        "title": "Encryption and tenant isolation",
+        "description": "Sensitive Wi-Fi and guest-register data is encrypted and isolated by host to support secure operations."
+      },
+      "item6": {
+        "title": "ChatGPT and Claude via MCP",
+        "description": "Connect familiar AI assistants to availability checks, reservation approvals, campaign creation and other workflows."
+      }
+    },
+    "operations": {
+      "eyebrow": "Operations",
+      "title": "Not just marketing—the whole back of house.",
+      "description": "Yadora standardizes the operating work behind every stay so more direct bookings do not create more operational complexity.",
+      "item1": {
+        "title": "Mobile check-in and legal register",
+        "description": "Guests complete the register on their phones while sensitive details are encrypted and organized for compliant records."
+      },
+      "item2": {
+        "title": "On-site guides and add-on orders",
+        "description": "Bring property information, additional services and time-based requests into the guest’s phone."
+      },
+      "item3": {
+        "title": "Multilingual AI chat",
+        "description": "An AI trained on the property answers guest questions across languages and reduces late-night support load."
+      },
+      "item4": {
+        "title": "Staff, housekeeping and payroll",
+        "description": "Share permission-based tasks, checklists and photo reports, then roll housekeeping rewards into payroll totals."
+      }
+    },
+    "results": {
+      "eyebrow": "Product Value",
+      "title": "Turn value lost to commissions into margin and customer equity.",
+      "description": "A monthly model with no per-booking commission. As the direct-booking mix grows, more profit and more guest relationships remain with the property.",
+      "stat1": { "value": "¥0", "label": "Per-booking commission" },
+      "stat2": { "value": "Minutes", "label": "Setup time" },
+      "stat3": { "value": "6", "label": "Guest-facing languages" },
+      "stat4": { "value": "24/7", "label": "AI chat and automation" }
+    },
+    "cta": {
+      "eyebrow": "Visit Yadora",
+      "title": "Start growing your guest list with the next check-in.",
+      "description": "Explore Yadora’s features, pricing and onboarding on the official website. For product development or a similar operational platform, talk to KONDAX.",
+      "buttons": {
+        "officialSite": "Visit Yadora",
+        "contact": "Discuss a product"
       }
     }
   },
