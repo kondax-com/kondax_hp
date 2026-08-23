@@ -1,4 +1,4 @@
-import { ArrowUpRight, BedDouble, Sparkles, UsersRound } from 'lucide-react'
+import { ArrowUpRight } from 'lucide-react'
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import { getTranslations } from 'next-intl/server'
@@ -25,80 +25,55 @@ async function FeaturedYadora({ locale }: { locale: string }) {
   return (
     <Container className="mt-20 sm:mt-24">
       <FadeIn>
-        <article className="relative isolate overflow-hidden rounded-[2.5rem] bg-[#071f18] px-6 py-10 text-white sm:px-10 sm:py-14 lg:px-14">
-          <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_90%_10%,rgba(52,211,153,0.24),transparent_34%),radial-gradient(circle_at_10%_100%,rgba(201,255,122,0.10),transparent_30%)]" />
-          <div className="grid items-center gap-12 lg:grid-cols-[1.12fr_0.88fr]">
-            <div>
-              <p className="text-xs font-semibold tracking-[0.24em] text-emerald-300 uppercase">
+        <article className="border-y border-neutral-950 py-7 sm:py-9">
+          <div className="grid items-center gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-16">
+            <div className="lg:py-5">
+              <p className="text-xs font-semibold tracking-[0.22em] text-[#996d2d] uppercase">
                 {t('featured.eyebrow')}
               </p>
-              <h2 className="mt-5 font-display text-3xl font-medium tracking-tight sm:text-4xl lg:text-5xl">
+              <h2 className="mt-6 font-display text-3xl font-medium tracking-tight text-balance text-[#171917] sm:text-4xl lg:text-5xl">
                 <Link href="/work/yadora">{t('featured.title')}</Link>
               </h2>
-              <p className="mt-6 max-w-2xl text-sm leading-7 text-white/60 sm:text-base sm:leading-8">
+              <p className="mt-6 max-w-2xl text-sm leading-7 text-neutral-600 sm:text-base sm:leading-8">
                 {t('featured.description')}
               </p>
-              <div className="mt-7 flex flex-wrap gap-2">
-                {tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-xs text-white/70"
-                  >
+              <ul className="mt-7 flex flex-wrap gap-x-5 gap-y-2 text-xs font-semibold text-[#136f55]">
+                {tags.map((tag, index) => (
+                  <li key={tag} className="flex items-center gap-5">
+                    {index > 0 && (
+                      <span
+                        className="h-px w-5 bg-neutral-300"
+                        aria-hidden="true"
+                      />
+                    )}
                     {tag}
-                  </span>
+                  </li>
                 ))}
-              </div>
+              </ul>
               <div className="mt-9">
-                <Button
-                  href="/work/yadora"
-                  invert
-                  className="gap-2 px-5 py-2.5"
-                >
+                <Button href="/work/yadora" className="gap-2 px-5 py-2.5">
                   {t('featured.button')}
                   <ArrowUpRight className="h-4 w-4" />
                 </Button>
               </div>
             </div>
 
-            <div
-              aria-hidden="true"
-              className="relative mx-auto w-full max-w-md"
+            <Link
+              href="/work/yadora"
+              aria-label={t('featured.button')}
+              className="block border border-neutral-800 bg-[#111311] p-1.5 shadow-[0_24px_60px_rgba(17,19,17,0.16)] focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-4 focus-visible:outline-none sm:p-2"
             >
-              <div className="absolute inset-8 rounded-full bg-emerald-300/20 blur-3xl" />
-              <div className="relative rotate-1 rounded-[2rem] border border-white/10 bg-[#10261f] p-4 shadow-2xl shadow-black/30 transition-transform duration-500 hover:rotate-0">
-                <div className="flex items-center justify-between border-b border-white/10 pb-3">
-                  <div className="flex items-center gap-2 text-sm font-semibold">
-                    <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#19c48a] text-[#071f18]">
-                      Y
-                    </span>
-                    Yadora
-                  </div>
-                  <Sparkles className="h-4 w-4 text-[#c9ff7a]" />
-                </div>
-                <div className="mt-4 grid grid-cols-2 gap-3">
-                  <div className="rounded-2xl bg-white/5 p-4">
-                    <BedDouble className="h-5 w-5 text-emerald-300" />
-                    <p className="mt-5 text-2xl font-semibold">82%</p>
-                    <p className="mt-1 text-[10px] text-white/40">
-                      {t('featured.mockup.occupancy')}
-                    </p>
-                  </div>
-                  <div className="rounded-2xl bg-white/5 p-4">
-                    <UsersRound className="h-5 w-5 text-emerald-300" />
-                    <p className="mt-5 text-2xl font-semibold">24</p>
-                    <p className="mt-1 text-[10px] text-white/40">
-                      {t('featured.mockup.guests')}
-                    </p>
-                  </div>
-                  <div className="col-span-2 flex items-start gap-3 rounded-2xl bg-[#dffbed] p-4 text-[#10382b]">
-                    <Sparkles className="mt-0.5 h-4 w-4 shrink-0" />
-                    <p className="text-xs leading-5">
-                      {t('featured.mockup.suggestion')}
-                    </p>
-                  </div>
-                </div>
+              <div className="relative aspect-[1306/777] overflow-hidden bg-[#151816]">
+                <Image
+                  src="/images/yadora/yadora-hero.png"
+                  alt=""
+                  fill
+                  priority
+                  sizes="(min-width: 1024px) 680px, calc(100vw - 48px)"
+                  className="object-cover"
+                />
               </div>
-            </div>
+            </Link>
           </div>
         </article>
       </FadeIn>
