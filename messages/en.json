@@ -8,6 +8,7 @@
     "work": "Work",
     "contact": "Contact",
     "yadora": "Yadora / Hospitality CRM",
+    "bocker": "Bocker / Salon Booking & CRM",
     "gallery": "Gallery"
   },
   "HomePage": {
@@ -325,6 +326,17 @@
         "suggestion": "Campaign suggested for returning guests during an open period"
       }
     },
+    "bockerFeatured": {
+      "eyebrow": "Featured Case Study / Salon SaaS",
+      "title": "Bocker — Bookings, customers and revenue in one platform",
+      "description": "A salon operating platform that brings together 24/7 booking, slot optimization, digital client records, customer and revenue analytics, LINE notifications, points and coupons.",
+      "button": "View the Bocker case study",
+      "tags": {
+        "tag1": "Booking & shifts",
+        "tag2": "Digital client records",
+        "tag3": "Customer & revenue analytics"
+      }
+    },
     "placeholder": {
       "heading": "Great fits for our approach",
       "subheading": "Even if your case isn’t listed, we can proceed with a <strong>1-week PoC / 6-month ROI guideline</strong>.",
@@ -521,6 +533,147 @@
       "description": "Explore Yadora’s features, pricing and onboarding on the official website. For product development or a similar operational platform, talk to KONDAX.",
       "buttons": {
         "officialSite": "Visit Yadora",
+        "contact": "Discuss a product"
+      }
+    }
+  },
+  "BockerPage": {
+    "title": "Bocker | Salon Booking & Customer Management SaaS Case Study | KONDAX",
+    "description": "A KONDAX case study for Bocker, a salon platform integrating 24/7 booking, slot optimization, digital client records, customer and revenue management, and LINE notifications.",
+    "intro": {
+      "eyebrow": "Salon Reservation / CRM",
+      "titleLead": "Bookings, customers and revenue—",
+      "titleAccent": "one salon operating system.",
+      "description": "Online booking, staff and menu management, treatment records, points, coupons and revenue analytics come together in one workspace. Bocker reduces daily checking and re-entry so salon teams can focus on every client and the work that brings them back.",
+      "imageAlt": "The Bocker website hero showing product screens for booking, customer and revenue management",
+      "imageCaption": "Bocker website / opening view",
+      "buttons": {
+        "officialSite": "Visit Bocker",
+        "contact": "Discuss a product"
+      }
+    },
+    "projectInfo": {
+      "audience": {
+        "title": "For",
+        "item1": "Hair and beauty salons",
+        "item2": "Nail and eyelash studios",
+        "item3": "Solo to multi-location teams"
+      },
+      "scope": {
+        "title": "Product scope",
+        "item1": "Bookings and shifts",
+        "item2": "Customer CRM and records",
+        "item3": "Revenue analytics and retention",
+        "item4": "LINE notifications and payments"
+      },
+      "delivery": {
+        "title": "Engagement",
+        "item1": "Strategy, UX and development",
+        "item2": "Cloud operations and iteration"
+      }
+    },
+    "challenge": {
+      "eyebrow": "The Challenge",
+      "title": "Work outside the treatment room kept taking time away from clients.",
+      "description": "Phone bookings, paper or spreadsheet records and separate revenue reports create constant checking and re-entry. Fragmented information leaves less time for clients and less room to build a deliberate retention practice.",
+      "item1": {
+        "title": "Booking coordination interrupts the day",
+        "description": "Every availability check breaks the flow of a treatment, while bookings outside business hours can be missed entirely."
+      },
+      "item2": {
+        "title": "Customer history is hard to use",
+        "description": "When treatments, photos and notes live in different places, preparation and staff handoffs take longer than they should."
+      },
+      "item3": {
+        "title": "Revenue does not reveal the next action",
+        "description": "When booking, menu and customer data are separate, popular services and repeat-visit patterns are difficult to act on quickly."
+      }
+    },
+    "flow": {
+      "eyebrow": "How It Works",
+      "title": "One continuous record from booking to the next visit.",
+      "description": "A booking becomes the starting point for client records, checkout, points and analytics—all connected to the same customer profile.",
+      "step1": {
+        "title": "Accept bookings around the clock",
+        "description": "Offer availability based on staff, services and duration so customers can book even while the salon team is busy."
+      },
+      "step2": {
+        "title": "Build the client record at every visit",
+        "description": "Organize treatment details, photos, notes and purchase history by customer and keep the next staff handoff clear."
+      },
+      "step3": {
+        "title": "Use the data to bring clients back",
+        "description": "Turn booking and revenue history into useful insight, then stay connected through LINE, points and coupons."
+      }
+    },
+    "features": {
+      "eyebrow": "Core Platform",
+      "title": "Everything a salon needs, without a maze of tools.",
+      "description": "A straightforward interface follows the salon’s real workflow while one data foundation connects bookings, customers and revenue.",
+      "item1": {
+        "title": "Smart booking management",
+        "description": "Manage 24/7 online booking, availability, staff assignments and services from one reservation timeline."
+      },
+      "item2": {
+        "title": "Automatic slot optimization",
+        "description": "Generate bookable slots around staff, duration and concurrent-booking rules for each salon’s operation."
+      },
+      "item3": {
+        "title": "Digital client records",
+        "description": "Keep treatment history, hair or skin condition, photos and notes together for faster preparation and handoffs."
+      },
+      "item4": {
+        "title": "Staff and menu management",
+        "description": "Update permissions, shifts, services, pricing, duration and add-ons from the same operating workspace."
+      },
+      "item5": {
+        "title": "Points and coupons",
+        "description": "Create loyalty rules connected to visit history and give each customer a reason to book the next appointment."
+      },
+      "item6": {
+        "title": "Revenue and customer analytics",
+        "description": "See daily, service and staff revenue alongside customer behavior to support the next business decision."
+      }
+    },
+    "operations": {
+      "eyebrow": "Operations",
+      "title": "More than a booking book—the salon’s daily operating layer.",
+      "description": "The customer booking experience and the staff management workspace stay connected through the same information.",
+      "item1": {
+        "title": "Bookings and visits",
+        "description": "Review the day’s appointments and open slots on a timeline and share each status from arrival through checkout."
+      },
+      "item2": {
+        "title": "Customer portal",
+        "description": "Give customers access to their booking history, profile and points through a dedicated personal view."
+      },
+      "item3": {
+        "title": "LINE reminders",
+        "description": "Deliver appointment reminders and salon updates through LINE, a familiar everyday customer touchpoint."
+      },
+      "item4": {
+        "title": "Payments and store operations",
+        "description": "Bring online payments, revenue visibility and staff permissions into the same operational platform."
+      }
+    },
+    "results": {
+      "eyebrow": "Product Value",
+      "title": "Give management time back to service and growth.",
+      "description": "Bocker removes the work of stitching booking, records and retention tools together, helping small salon teams deliver a consistent customer experience.",
+      "stat1": { "value": "24/365", "label": "Online booking availability" },
+      "stat2": {
+        "value": "1 view",
+        "label": "Bookings, customers and revenue"
+      },
+      "stat3": { "value": "LINE", "label": "Reminders and customer contact" },
+      "stat4": { "value": "30 days", "label": "Free trial" }
+    },
+    "cta": {
+      "eyebrow": "Visit Bocker",
+      "title": "Make salon operations simpler with the next booking.",
+      "description": "Explore Bocker’s features, pricing and demo on the official website. For a booking, customer management or similar operational product, talk to KONDAX.",
+      "buttons": {
+        "officialSite": "Visit Bocker",
         "contact": "Discuss a product"
       }
     }
