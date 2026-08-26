@@ -155,7 +155,11 @@ function Navigation() {
         </NavigationRow>
         <NavigationRow>
           <NavigationItem href="/work/yadora">{t('yadora')}</NavigationItem>
+          <NavigationItem href="/work/bocker">{t('bocker')}</NavigationItem>
+        </NavigationRow>
+        <NavigationRow>
           <NavigationItem href="/work/gallery">{t('gallery')}</NavigationItem>
+          <NavigationItem href="/contact">{t('contact')}</NavigationItem>
         </NavigationRow>
       </nav>
     </>

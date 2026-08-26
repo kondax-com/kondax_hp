@@ -85,6 +85,76 @@ async function FeaturedYadora({ locale }: { locale: string }) {
   )
 }
 
+async function FeaturedBocker({ locale }: { locale: string }) {
+  const t = await getTranslations({ locale, namespace: 'WorkPage' })
+  const tags = [
+    t('bockerFeatured.tags.tag1'),
+    t('bockerFeatured.tags.tag2'),
+    t('bockerFeatured.tags.tag3'),
+  ]
+
+  return (
+    <Container className="mt-12 sm:mt-16">
+      <FadeIn>
+        <article className="border-b border-neutral-950 pb-7 sm:pb-9">
+          <div className="grid items-center gap-12 lg:grid-cols-[1.18fr_0.82fr] lg:gap-16">
+            <Link
+              href="/work/bocker"
+              aria-label={t('bockerFeatured.button')}
+              className="relative isolate block rounded-[1.75rem] border border-[#a8d7e9] bg-[#d8f1fa] p-1.5 shadow-[0_28px_70px_rgba(20,57,74,0.14),0_10px_24px_rgba(20,57,74,0.08)] focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-4 focus-visible:outline-none motion-safe:animate-yadora-float motion-safe:will-change-transform sm:rounded-[2rem] sm:p-2"
+            >
+              <span
+                aria-hidden="true"
+                className="absolute right-[8%] -bottom-5 left-[8%] -z-10 h-8 rounded-full bg-[#14394a]/20 blur-2xl motion-safe:animate-yadora-shadow"
+              />
+              <div className="relative aspect-[1308/783] overflow-hidden rounded-[1.35rem] bg-white sm:rounded-[1.55rem]">
+                <Image
+                  src="/images/bocker/bocker-hero.png"
+                  alt=""
+                  fill
+                  sizes="(min-width: 1024px) 680px, calc(100vw - 48px)"
+                  className="object-cover"
+                />
+              </div>
+            </Link>
+
+            <div className="lg:py-5">
+              <p className="text-xs font-semibold tracking-[0.22em] text-[#367f9a] uppercase">
+                {t('bockerFeatured.eyebrow')}
+              </p>
+              <h2 className="mt-6 font-display text-3xl font-medium tracking-tight text-balance text-[#101827] sm:text-4xl lg:text-5xl">
+                <Link href="/work/bocker">{t('bockerFeatured.title')}</Link>
+              </h2>
+              <p className="mt-6 max-w-2xl text-sm leading-7 text-neutral-600 sm:text-base sm:leading-8">
+                {t('bockerFeatured.description')}
+              </p>
+              <ul className="mt-7 flex flex-wrap gap-x-5 gap-y-2 text-xs font-semibold text-[#367f9a]">
+                {tags.map((tag, index) => (
+                  <li key={tag} className="flex items-center gap-5">
+                    {index > 0 && (
+                      <span
+                        className="h-px w-5 bg-neutral-300"
+                        aria-hidden="true"
+                      />
+                    )}
+                    {tag}
+                  </li>
+                ))}
+              </ul>
+              <div className="mt-9">
+                <Button href="/work/bocker" className="gap-2 px-5 py-2.5">
+                  {t('bockerFeatured.button')}
+                  <ArrowUpRight className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+          </div>
+        </article>
+      </FadeIn>
+    </Container>
+  )
+}
+
 async function CaseStudies({
   caseStudies,
   locale,
@@ -213,6 +283,7 @@ export default async function Work({ params }: Props) {
       </PageIntro>
 
       <FeaturedYadora locale={locale} />
+      <FeaturedBocker locale={locale} />
 
       {caseStudies.length > 0 && (
         <CaseStudies caseStudies={caseStudies} locale={locale} />
