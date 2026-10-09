@@ -9,8 +9,9 @@ import {
   useState,
 } from 'react'
 import clsx from 'clsx'
-import { motion, MotionConfig, useReducedMotion } from 'framer-motion'
-import { useTranslations } from 'next-intl'
+import { LazyMotion, MotionConfig, useReducedMotion } from 'framer-motion'
+import * as m from 'framer-motion/m'
+import { useLocale, useTranslations } from 'next-intl'
 import { Link, usePathname } from '@/i18n/routing'
 import { LanguageSwitcher } from '@/components/LanguageSwitcher'
 import { Button } from '@/components/Button'
@@ -20,6 +21,9 @@ import { GridPattern } from '@/components/GridPattern'
 import { Logo, Logomark } from '@/components/Logo'
 import { Offices } from '@/components/Offices'
 import { SocialMedia } from '@/components/SocialMedia'
+
+const loadMotionFeatures = () =>
+  import('./MotionFeatures').then((features) => features.default)
 
 const RootLayoutContext = createContext<{
   logoHovered: boolean
@@ -224,7 +228,7 @@ function RootLayoutInner({ children }: { children: React.ReactNode }) {
           />
         </div>
 
-        <motion.div
+        <m.div
           layout
           id={panelId}
           style={{ height: expanded ? 'auto' : '0.5rem' }}
@@ -233,7 +237,7 @@ function RootLayoutInner({ children }: { children: React.ReactNode }) {
           // @ts-ignore (https://github.com/facebook/react/issues/17157)
           inert={expanded ? undefined : true}
         >
-          <motion.div layout className="bg-neutral-800">
+          <m.div layout className="bg-neutral-800">
             <div ref={navRef} className="bg-neutral-950 pt-14 pb-16">
               <Header
                 invert
@@ -272,16 +276,16 @@ function RootLayoutInner({ children }: { children: React.ReactNode }) {
                 </div>
               </Container>
             </div>
-          </motion.div>
-        </motion.div>
+          </m.div>
+        </m.div>
       </header>
 
-      <motion.div
+      <m.div
         layout
         style={{ borderTopLeftRadius: 40, borderTopRightRadius: 40 }}
         className="relative flex flex-auto overflow-hidden bg-white pt-14"
       >
-        <motion.div
+        <m.div
           layout
           className="relative isolate flex w-full flex-col pt-9"
         >
@@ -294,19 +298,26 @@ function RootLayoutInner({ children }: { children: React.ReactNode }) {
           <main className="w-full flex-auto">{children}</main>
 
           <Footer />
-        </motion.div>
-      </motion.div>
+        </m.div>
+      </m.div>
     </MotionConfig>
   )
 }
 
 export function RootLayout({ children }: { children: React.ReactNode }) {
   let pathname = usePathname()
+  const locale = useLocale()
   let [logoHovered, setLogoHovered] = useState(false)
 
+  useEffect(() => {
+    document.documentElement.lang = locale
+  }, [locale])
+
   return (
-    <RootLayoutContext.Provider value={{ logoHovered, setLogoHovered }}>
-      <RootLayoutInner key={pathname}>{children}</RootLayoutInner>
-    </RootLayoutContext.Provider>
+    <LazyMotion features={loadMotionFeatures}>
+      <RootLayoutContext.Provider value={{ logoHovered, setLogoHovered }}>
+        <RootLayoutInner key={pathname}>{children}</RootLayoutInner>
+      </RootLayoutContext.Provider>
+    </LazyMotion>
   )
 }

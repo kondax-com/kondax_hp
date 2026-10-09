@@ -1,5 +1,5 @@
-import { NextIntlClientProvider } from 'next-intl'
-import { getMessages } from 'next-intl/server'
+import { hasLocale, NextIntlClientProvider } from 'next-intl'
+import { getMessages, setRequestLocale } from 'next-intl/server'
 import { notFound } from 'next/navigation'
 import { routing } from '@/i18n/routing'
 
@@ -7,26 +7,30 @@ import { RootLayout } from '@/components/RootLayout'
 
 type Props = {
   children: React.ReactNode
-  params: Promise<{locale: string}>
+  params: Promise<{ locale: string }>
 }
 
-export default async function LocaleLayout({
-  children,
-  params
-}: Props) {
-  const {locale} = await params;
+export default async function LocaleLayout({ children, params }: Props) {
+  const { locale } = await params
 
   // Ensure that the incoming `locale` is valid
-  if (!routing.locales.includes(locale as any)) {
+  if (!hasLocale(routing.locales, locale)) {
     notFound()
   }
 
-  // Providing all messages to the client
-  // side is the easiest way to get started
-  const messages = await getMessages()
+  setRequestLocale(locale)
+  const messages = await getMessages({ locale })
+  // Only interactive components need translations in the browser.
+  const clientMessages = {
+    Navigation: messages.Navigation,
+    Footer: messages.Footer,
+    Offices: messages.Offices,
+    ContactPage: messages.ContactPage,
+    ContactSection: messages.ContactSection,
+  }
 
   return (
-    <NextIntlClientProvider messages={messages}>
+    <NextIntlClientProvider locale={locale} messages={clientMessages}>
       <RootLayout>{children}</RootLayout>
     </NextIntlClientProvider>
   )
