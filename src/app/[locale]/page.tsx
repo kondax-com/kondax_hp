@@ -1,5 +1,6 @@
 import { type Metadata } from 'next'
-import { getLocale } from 'next-intl/server'
+import { getLocale, setRequestLocale } from 'next-intl/server'
+import { routing } from '@/i18n/routing'
 import Image from 'next/image'
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
@@ -72,7 +73,7 @@ async function Clients({ locale }: { locale: string }) {
                   <Image
                     src={logo}
                     alt={client as string}
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
+                    sizes="120px"
                     className="rounded-3xl object-contain"
                     width={120}
                     height={60}
@@ -162,7 +163,7 @@ async function Services() {
         title={t('speed.title')}
         className="mt-24 sm:mt-32 lg:mt-40"
       >
-        <p className='text-sm md:text-base'>
+        <p className="text-sm md:text-base">
           {t.rich('speed.description', {
             strong: (chunks) => <strong>{chunks}</strong>,
             br: () => <br />,
@@ -182,28 +183,55 @@ async function Services() {
           </div>
           <List className="mt-16 lg:mt-0 lg:w-1/2 lg:min-w-132 lg:pl-4">
             {/* マーケティング・営業支援 */}
-            <ListItem title={t('services.marketing.title')} titleCover={"Marketing"}>
-              {t.rich('services.marketing.body', { strong: (c) => <strong>{c}</strong>, br: () => <br /> })}
+            <ListItem
+              title={t('services.marketing.title')}
+              titleCover={'Marketing'}
+            >
+              {t.rich('services.marketing.body', {
+                strong: (c) => <strong>{c}</strong>,
+                br: () => <br />,
+              })}
             </ListItem>
 
             {/* AIコンテンツ・業務効率化 */}
-            <ListItem title={t('services.ai.title')} titleCover={"AI"}>
-              {t.rich('services.ai.body', { strong: (c) => <strong>{c}</strong>, br: () => <br /> })}
+            <ListItem title={t('services.ai.title')} titleCover={'AI'}>
+              {t.rich('services.ai.body', {
+                strong: (c) => <strong>{c}</strong>,
+                br: () => <br />,
+              })}
             </ListItem>
 
             {/* 業務自動化・システム開発 */}
-            <ListItem title={t('services.automation.title')} titleCover={"Automation"}>
-              {t.rich('services.automation.body', { strong: (c) => <strong>{c}</strong>, br: () => <br /> })}
+            <ListItem
+              title={t('services.automation.title')}
+              titleCover={'Automation'}
+            >
+              {t.rich('services.automation.body', {
+                strong: (c) => <strong>{c}</strong>,
+                br: () => <br />,
+              })}
             </ListItem>
 
             {/* ECサイト・売上最大化 */}
-            <ListItem title={t('services.ecommerce.title')} titleCover={"E-commerce"}>
-              {t.rich('services.ecommerce.body', { strong: (c) => <strong>{c}</strong>, br: () => <br /> })}
+            <ListItem
+              title={t('services.ecommerce.title')}
+              titleCover={'E-commerce'}
+            >
+              {t.rich('services.ecommerce.body', {
+                strong: (c) => <strong>{c}</strong>,
+                br: () => <br />,
+              })}
             </ListItem>
 
             {/* データ分析・継続成長支援 */}
-            <ListItem title={t('services.data.title')} titleCover={"DataAnalysis"}>
-              {t.rich('services.data.body', { strong: (c) => <strong>{c}</strong>, br: () => <br /> })}
+            <ListItem
+              title={t('services.data.title')}
+              titleCover={'DataAnalysis'}
+            >
+              {t.rich('services.data.body', {
+                strong: (c) => <strong>{c}</strong>,
+                br: () => <br />,
+              })}
             </ListItem>
           </List>
         </div>
@@ -215,7 +243,6 @@ async function Services() {
 interface Props {
   params: Promise<{ locale: string }>
 }
-
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params
@@ -246,78 +273,102 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-export default async function Home() {
-  const locale = await getLocale()
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }))
+}
+
+export default async function Home({ params }: Props) {
+  const { locale } = await params
+  setRequestLocale(locale)
   const t = await getTranslations({ locale: locale, namespace: 'HomePage' })
   let caseStudies = (await loadCaseStudies()).slice(0, 3)
   return (
-    <StaggerContainer>
-      <StaggerItem>
-        <Container className="mt-24 sm:mt-32 md:mt-56">
-          <FadeIn className="max-w-5xl">
-            <AnimationHeadLine />
-          </FadeIn>
-        </Container>
-      </StaggerItem>
+    <>
+      <Container className="mt-24 sm:mt-32 md:mt-56">
+        <div className="max-w-5xl">
+          <AnimationHeadLine />
+        </div>
+      </Container>
+      <StaggerContainer>
+        <StaggerItem>
+          <Clients locale={locale} />
+        </StaggerItem>
 
-      <StaggerItem>
-        <Clients locale={locale} />
-      </StaggerItem>
+        <StaggerItem>
+          <CaseStudies caseStudies={caseStudies} locale={locale} />
+        </StaggerItem>
 
-      <StaggerItem>
-        <CaseStudies caseStudies={caseStudies} locale={locale} />
-      </StaggerItem>
-
-      <StaggerItem>
-        <div className="mt-24 sm:mt-32 lg:mt-40">
-          <Container>
-            <div className="mx-auto max-w-4xl">
-              <div className="relative rounded-4xl bg-neutral-950 px-6 py-20 sm:px-10 sm:py-32 md:px-12">
-                <div className="absolute inset-0 rounded-4xl bg-gradient-to-r from-neutral-800/50 to-neutral-900/50" />
-                <div className="relative">
-                  <div className="flex">
-                    
-                    <div className="ml-6 flex-1">
-                      <h3 className="font-display text-3xl font-bold text-white sm:text-5xl">
-                        {t('cta.title')}
-                      </h3>
-                      <p className="mt-12 text-base text-neutral-300">
-                        {t.rich('cta.description', { strong: (c) => <strong className="text-white">{c}</strong>, br: () => <br /> })}
-                      </p>
-                      <div className="mt-8 grid grid-cols-2 gap-6 sm:grid-cols-4">
-                        <div className="text-center">
-                          <div className="text-2xl font-bold text-white">{t('cta.stats.stat1.value')}</div>
-                          <div className="text-sm text-neutral-400">{t('cta.stats.stat1.label')}</div>
-                        </div>
-                        <div className="text-center">
-                          <div className="text-2xl font-bold text-white">{t('cta.stats.stat2.value')}</div>
-                          <div className="text-sm text-neutral-400">{t('cta.stats.stat2.label')}</div>
-                        </div>
-                        <div className="text-center">
-                          <div className="text-2xl font-bold text-white">{t('cta.stats.stat3.value')}</div>
-                          <div className="text-sm text-neutral-400">{t('cta.stats.stat3.label')}</div>
-                        </div>
-                        <div className="text-center">
-                          <div className="text-2xl font-bold text-white">{t('cta.stats.stat4.value')}</div>
-                          <div className="text-sm text-neutral-400">{t('cta.stats.stat4.label')}</div>
+        <StaggerItem>
+          <div className="mt-24 sm:mt-32 lg:mt-40">
+            <Container>
+              <div className="mx-auto max-w-4xl">
+                <div className="relative rounded-4xl bg-neutral-950 px-6 py-20 sm:px-10 sm:py-32 md:px-12">
+                  <div className="absolute inset-0 rounded-4xl bg-gradient-to-r from-neutral-800/50 to-neutral-900/50" />
+                  <div className="relative">
+                    <div className="flex">
+                      <div className="ml-6 flex-1">
+                        <h3 className="font-display text-3xl font-bold text-white sm:text-5xl">
+                          {t('cta.title')}
+                        </h3>
+                        <p className="mt-12 text-base text-neutral-300">
+                          {t.rich('cta.description', {
+                            strong: (c) => (
+                              <strong className="text-white">{c}</strong>
+                            ),
+                            br: () => <br />,
+                          })}
+                        </p>
+                        <div className="mt-8 grid grid-cols-2 gap-6 sm:grid-cols-4">
+                          <div className="text-center">
+                            <div className="text-2xl font-bold text-white">
+                              {t('cta.stats.stat1.value')}
+                            </div>
+                            <div className="text-sm text-neutral-400">
+                              {t('cta.stats.stat1.label')}
+                            </div>
+                          </div>
+                          <div className="text-center">
+                            <div className="text-2xl font-bold text-white">
+                              {t('cta.stats.stat2.value')}
+                            </div>
+                            <div className="text-sm text-neutral-400">
+                              {t('cta.stats.stat2.label')}
+                            </div>
+                          </div>
+                          <div className="text-center">
+                            <div className="text-2xl font-bold text-white">
+                              {t('cta.stats.stat3.value')}
+                            </div>
+                            <div className="text-sm text-neutral-400">
+                              {t('cta.stats.stat3.label')}
+                            </div>
+                          </div>
+                          <div className="text-center">
+                            <div className="text-2xl font-bold text-white">
+                              {t('cta.stats.stat4.value')}
+                            </div>
+                            <div className="text-sm text-neutral-400">
+                              {t('cta.stats.stat4.label')}
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </Container>
-        </div>
-      </StaggerItem>
+            </Container>
+          </div>
+        </StaggerItem>
 
-      <StaggerItem>
-        <Services />
-      </StaggerItem>
+        <StaggerItem>
+          <Services />
+        </StaggerItem>
 
-      <StaggerItem>
-        <ContactSection />
-      </StaggerItem>
-    </StaggerContainer>
+        <StaggerItem>
+          <ContactSection />
+        </StaggerItem>
+      </StaggerContainer>
+    </>
   )
 }

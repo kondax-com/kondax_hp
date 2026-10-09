@@ -1,6 +1,7 @@
 'use client'
 
-import { motion, useReducedMotion } from 'framer-motion'
+import { useReducedMotion } from 'framer-motion'
+import * as m from 'framer-motion/m'
 import { ReactNode } from 'react'
 
 interface StaggerContainerProps {
@@ -44,7 +45,7 @@ export function StaggerContainer({ children, className = '', delay = 0 }: Stagge
   }
 
   return (
-    <motion.div
+    <m.div
       variants={containerVariants}
       initial="initial"
       animate="in"
@@ -54,7 +55,7 @@ export function StaggerContainer({ children, className = '', delay = 0 }: Stagge
       }}
     >
       {children}
-    </motion.div>
+    </m.div>
   )
 }
 
@@ -66,11 +67,11 @@ export function StaggerItem({ children, className = '' }: { children: ReactNode;
   }
 
   return (
-    <motion.div
+    <m.div
       variants={itemVariants}
       className={className}
     >
       {children}
-    </motion.div>
+    </m.div>
   )
 }

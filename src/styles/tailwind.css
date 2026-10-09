@@ -50,6 +50,26 @@
   --animate-yadora-shadow: yadora-shadow 5.8s ease-in-out infinite;
 }
 
+.hero-highlight {
+  transform-origin: left;
+  animation: hero-highlight 0.9s cubic-bezier(0.19, 1, 0.22, 1) 1.2s backwards;
+}
+
+@keyframes hero-highlight {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-highlight {
+    animation: none;
+  }
+}
+
 @keyframes yadora-float {
   0%,
   100% {
