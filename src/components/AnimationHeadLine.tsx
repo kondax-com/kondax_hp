@@ -13,7 +13,7 @@ export async function AnimationHeadLine() {
               <div className="inline-block">
                 {line}
                 {i === 1 && (
-                  <span className="hero-highlight mt-2 block h-1 bg-gradient-to-r from-indigo-700 to-purple-500" />
+                  <span className="mt-2 block h-1 bg-gradient-to-r from-indigo-700 to-purple-500" />
                 )}
               </div>
             </div>
