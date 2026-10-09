@@ -1,51 +1,32 @@
 'use client'
 
-import { createContext, useContext } from 'react'
-import { useReducedMotion } from 'framer-motion'
-import * as m from 'framer-motion/m'
+import { createContext, useContext, useRef } from 'react'
+import { useNativeReveal } from '@/components/useNativeReveal'
 
 const FadeInStaggerContext = createContext(false)
 
-const viewport = { once: true, margin: '0px 0px -200px' }
+export function FadeIn(props: React.ComponentPropsWithoutRef<'div'>) {
+  const ref = useRef<HTMLDivElement>(null)
+  const isInStaggerGroup = useContext(FadeInStaggerContext)
+  useNativeReveal(ref, { enabled: !isInStaggerGroup })
 
-export function FadeIn(
-  props: React.ComponentPropsWithoutRef<typeof m.div>,
-) {
-  let shouldReduceMotion = useReducedMotion()
-  let isInStaggerGroup = useContext(FadeInStaggerContext)
-
-  return (
-    <m.div
-      variants={{
-        hidden: { opacity: 0, y: shouldReduceMotion ? 0 : 24 },
-        visible: { opacity: 1, y: 0 },
-      }}
-      transition={{ duration: 0.5 }}
-      {...(isInStaggerGroup
-        ? {}
-        : {
-            initial: 'hidden',
-            whileInView: 'visible',
-            viewport,
-          })}
-      {...props}
-    />
-  )
+  return <div ref={ref} data-native-reveal="" {...props} />
 }
 
 export function FadeInStagger({
   faster = false,
   ...props
-}: React.ComponentPropsWithoutRef<typeof m.div> & { faster?: boolean }) {
+}: React.ComponentPropsWithoutRef<'div'> & { faster?: boolean }) {
+  const ref = useRef<HTMLDivElement>(null)
+  useNativeReveal(ref, {
+    itemAttribute: 'data-native-reveal',
+    groupAttribute: 'data-fade-group',
+    stagger: faster ? 0.12 : 0.2,
+  })
+
   return (
     <FadeInStaggerContext.Provider value={true}>
-      <m.div
-        initial="hidden"
-        whileInView="visible"
-        viewport={viewport}
-        transition={{ staggerChildren: faster ? 0.12 : 0.2 }}
-        {...props}
-      />
+      <div ref={ref} data-fade-group="" {...props} />
     </FadeInStaggerContext.Provider>
   )
 }

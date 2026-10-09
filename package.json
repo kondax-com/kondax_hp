@@ -3,8 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build && next-sitemap",
+    "dev": "npm run analytics-assets && next dev",
+    "build": "npm run analytics-assets && next build && next-sitemap",
+    "analytics-assets": "partytown copylib public/~partytown",
     "start": "next start",
     "lint": "next lint"
   },
@@ -15,6 +16,7 @@
     "@mdx-js/loader": "^3.1.0",
     "@mdx-js/react": "^3.1.0",
     "@next/mdx": "^15",
+    "@qwik.dev/partytown": "0.14.5",
     "@radix-ui/react-label": "^2.1.7",
     "@radix-ui/react-select": "^2.2.6",
     "@radix-ui/react-slot": "^1.2.3",

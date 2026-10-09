@@ -10,8 +10,6 @@ import {
   useState,
 } from 'react'
 import clsx from 'clsx'
-import { LazyMotion, MotionConfig, useReducedMotion } from 'framer-motion'
-import * as m from 'framer-motion/m'
 import { useLocale, useTranslations } from 'next-intl'
 import { Link, usePathname } from '@/i18n/routing'
 import { LanguageSwitcher } from '@/components/LanguageSwitcher'
@@ -22,9 +20,6 @@ import { GridPattern } from '@/components/GridPattern'
 import { Logo, Logomark } from '@/components/Logo'
 import { Offices } from '@/components/Offices'
 import { SocialMedia } from '@/components/SocialMedia'
-
-const loadMotionFeatures = () =>
-  import('./MotionFeatures').then((features) => features.default)
 
 const RootLayoutContext = createContext<{
   logoHovered: boolean
@@ -176,11 +171,9 @@ import { GoogleAnalytics } from './GoogleAnalytics'
 function RootLayoutInner({ children }: { children: React.ReactNode }) {
   let panelId = useId()
   let [expanded, setExpanded] = useState(false)
-  let [isTransitioning, setIsTransitioning] = useState(false)
   let openRef = useRef<HTMLButtonElement>(null)
   let closeRef = useRef<HTMLButtonElement>(null)
   let navRef = useRef<HTMLDivElement>(null)
-  let shouldReduceMotion = useReducedMotion()
 
   useEffect(() => {
     function onClick(event: MouseEvent) {
@@ -188,7 +181,6 @@ function RootLayoutInner({ children }: { children: React.ReactNode }) {
         event.target instanceof HTMLElement &&
         event.target.closest('a')?.href === window.location.href
       ) {
-        setIsTransitioning(false)
         setExpanded(false)
       }
     }
@@ -201,11 +193,7 @@ function RootLayoutInner({ children }: { children: React.ReactNode }) {
   }, [])
 
   return (
-    <MotionConfig
-      transition={
-        shouldReduceMotion || !isTransitioning ? { duration: 0 } : undefined
-      }
-    >
+    <>
       <Suspense fallback={null}>
         <GoogleAnalytics />
       </Suspense>
@@ -222,7 +210,6 @@ function RootLayoutInner({ children }: { children: React.ReactNode }) {
             toggleRef={openRef}
             expanded={expanded}
             onToggle={() => {
-              setIsTransitioning(true)
               setExpanded((expanded) => !expanded)
               window.setTimeout(() =>
                 closeRef.current?.focus({ preventScroll: true }),
@@ -231,16 +218,15 @@ function RootLayoutInner({ children }: { children: React.ReactNode }) {
           />
         </div>
 
-        <m.div
-          layout
+        <div
           id={panelId}
-          style={{ height: expanded ? 'auto' : '0.5rem' }}
-          className="relative z-50 overflow-hidden bg-neutral-950 pt-2"
+          data-expanded={expanded ? 'true' : 'false'}
+          className="menu-panel relative z-50 overflow-hidden bg-neutral-950 pt-2"
           aria-hidden={expanded ? undefined : 'true'}
           // @ts-ignore (https://github.com/facebook/react/issues/17157)
           inert={expanded ? undefined : true}
         >
-          <m.div layout className="bg-neutral-800">
+          <div className="min-h-0 overflow-hidden bg-neutral-800">
             <div ref={navRef} className="bg-neutral-950 pt-14 pb-16">
               <Header
                 invert
@@ -249,7 +235,6 @@ function RootLayoutInner({ children }: { children: React.ReactNode }) {
                 toggleRef={closeRef}
                 expanded={expanded}
                 onToggle={() => {
-                  setIsTransitioning(true)
                   setExpanded((expanded) => !expanded)
                   window.setTimeout(() =>
                     openRef.current?.focus({ preventScroll: true }),
@@ -279,19 +264,15 @@ function RootLayoutInner({ children }: { children: React.ReactNode }) {
                 </div>
               </Container>
             </div>
-          </m.div>
-        </m.div>
+          </div>
+        </div>
       </header>
 
-      <m.div
-        layout
+      <div
         style={{ borderTopLeftRadius: 40, borderTopRightRadius: 40 }}
         className="relative flex flex-auto overflow-hidden bg-white pt-14"
       >
-        <m.div
-          layout
-          className="relative isolate flex w-full flex-col pt-9"
-        >
+        <div className="relative isolate flex w-full flex-col pt-9">
           <GridPattern
             className="absolute inset-x-0 -top-14 -z-10 h-[1000px] w-full mask-[linear-gradient(to_bottom_left,white_40%,transparent_50%)] fill-neutral-50 stroke-neutral-950/5"
             yOffset={-96}
@@ -301,9 +282,9 @@ function RootLayoutInner({ children }: { children: React.ReactNode }) {
           <main className="w-full flex-auto">{children}</main>
 
           <Footer />
-        </m.div>
-      </m.div>
-    </MotionConfig>
+        </div>
+      </div>
+    </>
   )
 }
 
@@ -317,10 +298,8 @@ export function RootLayout({ children }: { children: React.ReactNode }) {
   }, [locale])
 
   return (
-    <LazyMotion features={loadMotionFeatures}>
-      <RootLayoutContext.Provider value={{ logoHovered, setLogoHovered }}>
-        <RootLayoutInner key={pathname}>{children}</RootLayoutInner>
-      </RootLayoutContext.Provider>
-    </LazyMotion>
+    <RootLayoutContext.Provider value={{ logoHovered, setLogoHovered }}>
+      <RootLayoutInner key={pathname}>{children}</RootLayoutInner>
+    </RootLayoutContext.Provider>
   )
 }

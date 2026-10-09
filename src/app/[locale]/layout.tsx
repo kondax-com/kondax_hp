@@ -6,6 +6,7 @@ import { Toaster } from 'sonner'
 import { routing } from '@/i18n/routing'
 
 import { RootLayout } from '@/components/RootLayout'
+import { AnalyticsScripts } from '@/components/AnalyticsScripts'
 import '@/styles/tailwind.css'
 
 type Props = {
@@ -50,6 +51,9 @@ export default async function LocaleLayout({ children, params }: Props) {
 
   return (
     <html className="h-full bg-neutral-950 text-base antialiased" lang={locale}>
+      <head>
+        <AnalyticsScripts />
+      </head>
       <body className="flex min-h-full flex-col">
         <NextIntlClientProvider locale={locale} messages={clientMessages}>
           <RootLayout>{children}</RootLayout>
