@@ -2,6 +2,74 @@
 @import './base.css';
 @import './typography.css' layer(components);
 
+.menu-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.45s cubic-bezier(0.4, 0, 0.1, 1);
+}
+
+.menu-panel[data-expanded='true'] {
+  grid-template-rows: 1fr;
+}
+
+[data-native-reveal] {
+  --reveal-y: 24px;
+  --reveal-scale: 1;
+  --reveal-easing: cubic-bezier(0, 0, 0.58, 1);
+}
+
+[data-stagger-item] {
+  --reveal-y: 12px;
+  --reveal-scale: 0.98;
+  --reveal-easing: cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+[data-reveal-state='pending'] {
+  opacity: 0;
+  transform: translate3d(0, var(--reveal-y), 0) scale(var(--reveal-scale));
+}
+
+[data-reveal-state='visible'] {
+  animation: native-reveal 0.5s var(--reveal-easing) var(--reveal-delay, 0s) both;
+}
+
+.grid-hover-block {
+  animation: grid-hover-fade 1s ease-out forwards;
+}
+
+@keyframes native-reveal {
+  from {
+    opacity: 0;
+    transform: translate3d(0, var(--reveal-y), 0) scale(var(--reveal-scale));
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes grid-hover-fade {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .menu-panel {
+    transition: none;
+  }
+
+  [data-reveal-state] {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+
+  .grid-hover-block {
+    opacity: 0;
+    animation: none;
+  }
+}
+
 @theme {
   --text-*: initial;
   --text-xs: 0.75rem;

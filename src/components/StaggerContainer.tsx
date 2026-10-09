@@ -1,8 +1,7 @@
 'use client'
 
-import { useReducedMotion } from 'framer-motion'
-import * as m from 'framer-motion/m'
-import { ReactNode } from 'react'
+import { useRef, type ReactNode } from 'react'
+import { useNativeReveal } from '@/components/useNativeReveal'
 
 interface StaggerContainerProps {
   children: ReactNode
@@ -10,68 +9,37 @@ interface StaggerContainerProps {
   delay?: number
 }
 
-const containerVariants = {
-  initial: {},
-  in: {
-    transition: {
-      staggerChildren: 0.06,
-      delayChildren: 0.1,
-    },
-  },
-}
-
-const itemVariants = {
-  initial: {
-    opacity: 0,
-    y: 12,
-    scale: 0.98,
-  },
-  in: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: {
-      duration: 0.5,
-      ease: [0.25, 0.1, 0.25, 1] as [number, number, number, number],
-    },
-  },
-}
-
-export function StaggerContainer({ children, className = '', delay = 0 }: StaggerContainerProps) {
-  const shouldReduceMotion = useReducedMotion()
-
-  if (shouldReduceMotion) {
-    return <div className={className}>{children}</div>
-  }
+export function StaggerContainer({
+  children,
+  className = '',
+  delay = 0,
+}: StaggerContainerProps) {
+  const ref = useRef<HTMLDivElement>(null)
+  useNativeReveal(ref, {
+    itemAttribute: 'data-stagger-item',
+    groupAttribute: 'data-stagger-container',
+    stagger: 0.06,
+    delay: 0.1 + delay,
+    startOnMount: true,
+  })
 
   return (
-    <m.div
-      variants={containerVariants}
-      initial="initial"
-      animate="in"
-      className={className}
-      style={{ 
-        transition: `all 0.5s cubic-bezier(0.25, 0.1, 0.25, 1) ${delay}s`
-      }}
-    >
+    <div ref={ref} data-stagger-container="" className={className}>
       {children}
-    </m.div>
+    </div>
   )
 }
 
-export function StaggerItem({ children, className = '' }: { children: ReactNode; className?: string }) {
-  const shouldReduceMotion = useReducedMotion()
-
-  if (shouldReduceMotion) {
-    return <div className={className}>{children}</div>
-  }
-
+export function StaggerItem({
+  children,
+  className = '',
+}: {
+  children: ReactNode
+  className?: string
+}) {
   return (
-    <m.div
-      variants={itemVariants}
-      className={className}
-    >
+    <div data-stagger-item="" className={className}>
       {children}
-    </m.div>
+    </div>
   )
 }
