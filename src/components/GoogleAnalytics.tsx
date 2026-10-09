@@ -24,10 +24,13 @@ export const GoogleAnalytics = () => {
     // Initialize the queue before the analytics library loads.
     if (!analyticsWindow.kondaxAnalyticsInitialized) {
       analyticsWindow.gtag ||= function () {
+        if (arguments[0] === 'js' && typeof arguments[1] === 'number') {
+          arguments[1] = new Date(arguments[1])
+        }
         analyticsWindow.dataLayer!.push(arguments)
       }
       analyticsWindow.kondaxAnalyticsInitialized = true
-      analyticsWindow.gtag('js', new Date())
+      analyticsWindow.gtag('js', Date.now())
       analyticsWindow.gtag('config', GA_TRACKING_ID, { send_page_view: false })
     }
 
