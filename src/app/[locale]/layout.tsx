@@ -2,11 +2,11 @@ import { type Metadata } from 'next'
 import { hasLocale, NextIntlClientProvider } from 'next-intl'
 import { getMessages, getTranslations, setRequestLocale } from 'next-intl/server'
 import { notFound } from 'next/navigation'
-import { Toaster } from 'sonner'
 import { routing } from '@/i18n/routing'
 
 import { RootLayout } from '@/components/RootLayout'
 import { AnalyticsScripts } from '@/components/AnalyticsScripts'
+import { ContactToaster } from '@/components/ContactToaster'
 import '@/styles/tailwind.css'
 
 type Props = {
@@ -58,7 +58,7 @@ export default async function LocaleLayout({ children, params }: Props) {
         <NextIntlClientProvider locale={locale} messages={clientMessages}>
           <RootLayout>{children}</RootLayout>
         </NextIntlClientProvider>
-        <Toaster richColors position="top-right" />
+        <ContactToaster />
       </body>
     </html>
   )
