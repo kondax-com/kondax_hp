@@ -1,6 +1,7 @@
 'use client'
 
 import {
+  Suspense,
   createContext,
   useContext,
   useEffect,
@@ -205,7 +206,9 @@ function RootLayoutInner({ children }: { children: React.ReactNode }) {
         shouldReduceMotion || !isTransitioning ? { duration: 0 } : undefined
       }
     >
-      <GoogleAnalytics />
+      <Suspense fallback={null}>
+        <GoogleAnalytics />
+      </Suspense>
       <header>
         <div
           className="absolute top-2 right-0 left-0 z-40 pt-14"
