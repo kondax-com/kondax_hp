@@ -15,6 +15,9 @@ import createNextIntlPlugin from 'next-intl/plugin'
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'mdx'],
+  experimental: {
+    inlineCss: true,
+  },
 }
 
 function remarkMDXLayout(source, metaName) {
