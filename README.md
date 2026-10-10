@@ -62,8 +62,19 @@
     # その他の設定
     NEXT_PUBLIC_BASE_URL='https://kondax.com'
     RESEND_API_KEY='your-resend-api-key'
-    NEXT_PUBLIC_GA_ID='your-ga-id'
+    NEXT_PUBLIC_GA_ID='G-XXXXXXXXXX'
     ```
+
+### Google Analytics 4
+
+`NEXT_PUBLIC_GA_ID` にGA4のウェブデータストリームの測定IDを設定します。
+環境変数を変更した場合は、再ビルドしてデプロイしてください。未設定の場合は計測しません。
+
+初回表示とサイト内のページ移動は、GA4の自動ページビュー計測を使用します。
+GA4管理画面の「データ ストリーム」→対象のウェブストリーム→「拡張計測機能」で、
+「ページビュー」と、その詳細設定の「ブラウザの履歴イベントに基づくページの変更」を有効にしてください。
+手動の `page_view` イベントを追加すると二重計測になるため、併用しないでください。
+詳細は[Google公式のページビュー計測ガイド](https://developers.google.com/analytics/devguides/collection/ga4/views?hl=ja)を参照してください。
 
 ### 開発サーバー起動
 
