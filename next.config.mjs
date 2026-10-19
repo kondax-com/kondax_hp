@@ -14,6 +14,7 @@ import createNextIntlPlugin from 'next-intl/plugin'
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  outputFileTracingRoot: path.resolve('.'),
   pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'mdx'],
   images: {
     remotePatterns: [

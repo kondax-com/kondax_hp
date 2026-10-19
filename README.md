@@ -9,7 +9,7 @@
 -   **ヘッドレスCMS**: [Sanity](https://www.sanity.io/)による柔軟かつ多言語対応のコンテンツ管理
 -   **MDXサポート**: ブログ記事・導入事例をMDXで記述、リッチコンテンツに対応
 -   **レスポンシブデザイン**: モバイルからデスクトップまで最適化されたUI/UX
--   **SEO最適化**: `next-sitemap`による自動サイトマップ生成、メタデータ対応、GoogleAnalytics対応
+-   **SEO最適化**: 公開済み記事を含む動的サイトマップ、メタデータ対応、GoogleAnalytics対応
 -   **高性能**: Next.js App RouterとReact 19による最新アーキテクチャ
 
 ## 🚀 技術スタック
@@ -36,14 +36,14 @@
 
 ### 前提条件
 
--   Node.js (v18以上推奨)
+-   Node.js 22.13.0以上の22系、または24.0.0以上（22.14.0で検証）
 -   npm または yarn
 
 ### インストール
 
 1.  リポジトリをクローン:
     ```bash
-    git clone https://github.com/atsuki-sakai/kondax_hp.git
+    git clone https://github.com/kondax-com/kondax_hp.git
     cd kondax_hp
     ```
 
@@ -88,17 +88,23 @@ npm run dev
 ## 🛠️ Available Scripts
 
 -   `npm run dev`: Starts the development server.
--   `npm run build`: Builds the application for production and generates a sitemap.
+-   `npm run build`: Builds the application for production.
 -   `npm run start`: Starts the production server.
 -   `npm run lint`: Lints the code using ESLint.
+-   `npm test`: Runs regression tests for article pagination, metadata, sitemap, and accessible button names.
+
+`/sitemap.xml` は配信時に公開済みのSanity記事と日本語・英語ページを列挙します。
+下書き・未来の公開日時・スラッグや公開日時のない記事は含めません。
+CMSの取得に失敗した場合はエラーを返し、不完全なサイトマップを成功として配信しません。
 
 ## 📂 Project Structure
 
 ```
 .
-├── sanity-cms/         # Sanity Studio project for content management
+├── sanity-cms/         # Separately managed Sanity Studio reference
 ├── src/
 │   ├── app/
+│   │   ├── sitemap.ts  # Runtime sitemap for public pages and CMS articles
 │   │   └── [locale]/   # Internationalized pages (en, ja)
 │   ├── components/     # Reusable React components
 │   ├── i18n/           # Internationalization configuration
@@ -109,22 +115,10 @@ npm run dev
 
 ## Sanity CMS
 
-The content for this website is managed using Sanity. The Sanity Studio is a separate project located in the `sanity-cms` directory.
-
-To run the Sanity Studio locally:
-
-1.  Navigate to the `sanity-cms` directory:
-    ```bash
-    cd sanity-cms
-    ```
-2.  Install its dependencies:
-    ```bash
-    npm install
-    ```
-3.  Start the Sanity Studio development server:
-    ```bash
-    npm run dev
-    ```
+記事はSanityで管理し、このリポジトリでは `@sanity/client` で取得し、
+`@portabletext/react` で本文を表示します。Sanity StudioやそのCLI・プラグインは
+このHPのビルドでは使用しないため、ルートの依存関係に含めていません。
+`sanity-cms` は別管理の参照であり、Studio自体の依存関係はこの更新の対象外です。
 
 ## 📄 License
 

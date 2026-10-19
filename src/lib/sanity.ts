@@ -1,4 +1,5 @@
-import { createClient } from 'next-sanity'
+import { createClient } from '@sanity/client'
+import { cache } from 'react'
 
 export const client = createClient({
   projectId: 't62e3xha',
@@ -57,7 +58,7 @@ export async function getBlogPosts(locale: string = 'ja', page: number = 1, limi
   
   const posts = await client.fetch(query, { 
     offset, 
-    end: offset + limit - 1,
+    end: offset + limit,
     ...(category && { category })
   })
   
@@ -82,7 +83,7 @@ export async function getBlogCategories() {
   return await client.fetch(query)
 }
 
-export async function getBlogPost(slug: string, locale: string = 'ja') {
+export const getBlogPost = cache(async (slug: string, locale: string = 'ja') => {
   const query = `
     *[_type == "blog" && slug.current == $slug][0] {
       _id,
@@ -106,7 +107,7 @@ export async function getBlogPost(slug: string, locale: string = 'ja') {
     description: getLocalizedValue(post.description, locale),
     body: getLocalizedBody(post.body, locale)
   }
-}
+})
 
 // News queries
 export async function getNews(locale: string = 'ja', page: number = 1, limit: number = 5) {
@@ -125,7 +126,7 @@ export async function getNews(locale: string = 'ja', page: number = 1, limit: nu
   
   const news = await client.fetch(query, { 
     offset, 
-    end: offset + limit - 1 
+    end: offset + limit
   })
   
   return news.map((item: any) => ({
@@ -141,7 +142,7 @@ export async function getNewsTotal() {
   return await client.fetch(query)
 }
 
-export async function getNewsItem(slug: string, locale: string = 'ja') {
+export const getNewsItem = cache(async (slug: string, locale: string = 'ja') => {
   const query = `
     *[_type == "news" && slug.current == $slug][0] {
       _id,
@@ -149,6 +150,7 @@ export async function getNewsItem(slug: string, locale: string = 'ja') {
       slug,
       description,
       publishedAt,
+      image,
       body
     }
   `
@@ -163,4 +165,27 @@ export async function getNewsItem(slug: string, locale: string = 'ja') {
     description: getLocalizedValue(newsItem.description, locale),
     body: getLocalizedBody(newsItem.body, locale)
   }
+})
+
+export type SitemapArticle = {
+  _type: 'blog' | 'news'
+  slug: string
+  publishedAt: string
+  _updatedAt?: string
+}
+
+export async function getSitemapArticles(): Promise<SitemapArticle[]> {
+  const query = `
+    *[_type in ["blog", "news"]
+      && !(_id in path("drafts.**"))
+      && defined(slug.current) && slug.current != ""
+      && defined(publishedAt) && dateTime(publishedAt) <= dateTime(now())
+    ] | order(_type asc, slug.current asc) {
+      _type,
+      "slug": slug.current,
+      publishedAt,
+      _updatedAt
+    }
+  `
+  return client.fetch<SitemapArticle[]>(query, {}, { cache: 'no-store' })
 }
