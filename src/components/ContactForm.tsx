@@ -64,6 +64,7 @@ function RadioInput({
 export function ContactForm() {
   const t = useTranslations('ContactPage')
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const messageId = useId()
 
   const {
     register,
@@ -140,14 +141,20 @@ export function ContactForm() {
             autoComplete="tel"
           />
           <div className="flex flex-col gap-2 border-x border-neutral-300 px-6 py-6">
+            <label htmlFor={messageId} className="text-sm text-neutral-500">
+              {t('form.messagePlaceholder')}
+            </label>
             <Textarea
+              id={messageId}
               placeholder={t('form.messagePlaceholder')}
               {...register('message')}
-              className="m-0 w-full border-none p-0 shadow-none focus-visible:ring-0 focus-visible:ring-offset-0"
+              aria-invalid={Boolean(errors.message)}
+              aria-describedby={errors.message ? `${messageId}-error` : undefined}
+              className="m-0 w-full border-none p-0 shadow-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-4"
               rows={10}
             />
             {errors.message && (
-              <p className="mt-1 text-right text-xs text-red-600">
+              <p id={`${messageId}-error`} className="mt-1 text-right text-xs text-red-600">
                 {errors.message.message}
               </p>
             )}

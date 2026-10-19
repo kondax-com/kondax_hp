@@ -1,5 +1,4 @@
-import { PortableText } from "next-sanity";
-import imageUrlBuilder from "@sanity/image-url";
+import { PortableText } from "@portabletext/react";
 import type { SanityImageSource } from "@sanity/image-url/lib/types/types";
 import { getTranslations } from 'next-intl/server'
 import { client, getBlogPost } from '@/lib/sanity'
@@ -9,6 +8,9 @@ import InlineCode from '@/components/InlineCode'
 import React from 'react'
 import { Metadata } from 'next'
 import Image from 'next/image'
+import { notFound } from 'next/navigation'
+import { articleUrl, SITE_URL } from '@/lib/seo'
+import { imageBuilderFor } from '@/lib/sanity-image'
 import styles from './article.module.css'
 import {
   articleHeadings, blockText, comparisonCells, editorialImage, getSeriesNumber,
@@ -17,9 +19,7 @@ import {
 
 const { projectId, dataset } = client.config();
 const urlFor = (source: SanityImageSource) =>
-  projectId && dataset
-    ? imageUrlBuilder({ projectId, dataset }).image(source)
-    : null;
+  imageBuilderFor(source, { projectId, dataset });
 
 interface PostPageProps {
   params: Promise<{ slug: string; locale: string }>;
@@ -27,27 +27,31 @@ interface PostPageProps {
 
 export async function generateMetadata({ params }: PostPageProps): Promise<Metadata> {
   const { slug, locale } = await params
-  const post = await getBlogPost(slug, locale)
-  const t = await getTranslations({ locale, namespace: 'BlogPage' })
-  const baseUrl = (process.env.NEXT_PUBLIC_BASE_URL || 'https://kondax.com').replace(/\/$/, '')
-  const description = post?.description ? post.description.slice(0, 160) : t('og_fallback_description')
-  const image = post?.image ? urlFor(post.image)?.width(1200).height(630).fit('crop').url() : null
-  const title = post?.title || t('og_title')
+  if (!slug) notFound()
+  const [post, t] = await Promise.all([
+    getBlogPost(slug, locale),
+    getTranslations({ locale, namespace: 'BlogPage' }),
+  ])
+  if (!post) notFound()
+  const description = post.description ? post.description.slice(0, 160) : t('og_fallback_description')
+  const image = post.image ? urlFor(post.image)?.width(1200).height(630).fit('crop').url() : null
+  const title = post.title || t('og_title')
+  const canonical = articleUrl(locale, 'blog', slug)
   return {
     title: `${title} | KONDAX`,
     description,
     alternates: {
-      canonical: `https://kondax.com/${locale}/blog/${encodeURIComponent(slug)}`,
+      canonical,
     },
     openGraph: {
       title: `${title} | KONDAX`,
       description,
       type: 'website',
       locale: locale,
-      url: `${baseUrl}/${locale}/blog/${encodeURIComponent(slug)}`,
+      url: canonical,
       images: [
         {
-          url: image || `${baseUrl}/apple-touch-icon.png`,
+          url: image || `${SITE_URL}/apple-touch-icon.png`,
           width: image ? 1200 : 180,
           height: image ? 630 : 180,
           alt: localizedImageAlt(post?.image?.alt, locale, title),
@@ -61,7 +65,12 @@ export default async function PostPage({
   params,
 }: PostPageProps) {
   const { slug, locale } = await params;
-  const t = await getTranslations({ locale, namespace: 'BlogPage' });
+  if (!slug) notFound()
+  const [post, t] = await Promise.all([
+    getBlogPost(slug, locale),
+    getTranslations({ locale, namespace: 'BlogPage' }),
+  ])
+  if (!post) notFound()
   const seriesNumber = getSeriesNumber(slug)
   const editorialFigures = new Map<string, { image: NonNullable<ReturnType<typeof editorialImage>>; caption?: string }>()
   const embeddedCaptions = new Set<string>()
@@ -237,36 +246,6 @@ export default async function PostPage({
     } : {}),
   };
   
-  if (!slug) {
-    return (
-      <main className="min-h-screen bg-white text-gray-900">
-        <div className="container mx-auto max-w-3xl p-8 flex flex-col gap-4">
-          <Link href="/blog" className="text-blue-600 hover:underline text-sm">
-            ← {t('backToBlog')}
-          </Link>
-          <h1 className="text-4xl font-bold mb-8 text-gray-900">{t('invalidSlug')}</h1>
-          <p className="text-gray-700">{t('invalidSlugDescription')}</p>
-        </div>
-      </main>
-    );
-  }
-  
-  const post = await getBlogPost(slug, locale);
-  
-  if (!post) {
-    return (
-      <main className="min-h-screen bg-white text-gray-900">
-        <div className="container mx-auto max-w-3xl p-8 flex flex-col gap-4">
-          <Link href="/blog" className="text-blue-600 hover:underline text-sm">
-            ← {t('backToBlog')}
-          </Link>
-          <h1 className="text-4xl font-bold mb-8 text-gray-900">{t('postNotFound')}</h1>
-          <p className="text-gray-700">{t('postNotFoundDescription')}</p>
-        </div>
-      </main>
-    );
-  }
-
   // 投稿画像のURLを生成
   const postImageUrl = post.image
     ? seriesNumber ? urlFor(post.image)?.width(1600).height(900).fit('crop').url() : urlFor(post.image)?.width(550).height(310).url()

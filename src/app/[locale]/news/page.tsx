@@ -9,32 +9,34 @@ import { FadeIn } from '@/components/FadeIn'
 import { PageIntro } from '@/components/PageIntro'
 import { Link } from '@/i18n/routing'
 import { getNews, getNewsTotal } from '@/lib/sanity'
+import { listingUrl, normalizePage, SITE_URL } from '@/lib/seo'
 
 type Props = {
   params: Promise<{locale: string}>
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({ params, searchParams }: Props): Promise<Metadata> {
   const { locale } = await params
+  const { page } = await searchParams
+  const canonical = listingUrl(locale, 'news', normalizePage(page))
   const t = await getTranslations({ locale, namespace: 'NewsPage' })
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
   
   return {
     title: t('og_title'),
     description: t('og_description'),
     alternates: {
-      canonical: 'https://kondax.com/' + locale + '/news',
+      canonical,
     },
     openGraph: {
       title: t('og_title'),
       description: t('og_description'),
       type: 'website',
       locale: locale,
-      url: `${baseUrl}/${locale}/news`,
+      url: canonical,
       images: [
         {
-          url: `${baseUrl}/apple-touch-icon.png`, // OGP画像への絶対パス
+          url: `${SITE_URL}/apple-touch-icon.png`,
           width: 180,
           height: 180,
           alt: t('og_title'),
@@ -50,7 +52,7 @@ export default async function News({ params, searchParams }: Props) {
   const t = await getTranslations({ locale, namespace: 'NewsPage' })
   const tPagination = await getTranslations({ locale, namespace: 'Pagination' })
   
-  const currentPage = parseInt(page as string) || 1
+  const currentPage = normalizePage(page)
   const limit = 5
   
   const [posts, totalPosts] = await Promise.all([

@@ -14,6 +14,7 @@ export function Button({
   className,
   children,
   ariaLabel,
+  'aria-label': ariaLabelProp,
   ...props
 }: ButtonProps) {
   className = clsx(
@@ -31,7 +32,7 @@ export function Button({
       <button
         className={className}
         {...props}
-        aria-label={ariaLabel ?? 'no aria label'}
+        aria-label={ariaLabelProp ?? ariaLabel}
       >
         {inner}
       </button>
@@ -39,7 +40,7 @@ export function Button({
   }
 
   return (
-    <Link className={className} {...props}>
+    <Link className={className} {...props} aria-label={ariaLabelProp ?? ariaLabel}>
       {inner}
     </Link>
   )
