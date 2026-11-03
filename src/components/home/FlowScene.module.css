@@ -55,7 +55,6 @@
   inset: 15%;
 }
 
-.canvas,
 .fallback {
   position: absolute;
   inset: 0;
@@ -63,24 +62,23 @@
   height: 100%;
 }
 
-.canvas {
-  opacity: 0;
-}
-.canvas canvas {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
 .fallback svg {
   display: block;
   width: 100%;
   height: 100%;
 }
-.scene[data-ready='true'] .canvas {
-  opacity: 1;
-}
 .scene[data-ready='true'] .fallback {
   visibility: hidden;
+}
+
+.hero {
+  height: clamp(360px, 43vw, 620px);
+}
+.services {
+  height: 470px;
+}
+.contact {
+  height: 360px;
 }
 
 .caption {
@@ -107,51 +105,15 @@
   border-radius: 50%;
 }
 
-.control {
-  position: absolute;
-  right: 4%;
-  bottom: 12%;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.35rem;
-  min-width: 44px;
-  min-height: 44px;
-  padding: 0.45rem 0.7rem;
-  border: 1px solid #d5d9e9;
-  border-radius: 2rem;
-  background: #f7f8fcdd;
-  color: #4b5672;
-  font: inherit;
-  font-size: 0.6875rem;
-  cursor: pointer;
-  touch-action: manipulation;
-  transition:
-    background-color 0.2s,
-    border-color 0.2s;
-}
-
-.control:hover {
-  border-color: #858cbe;
-  background: #fff;
-}
-.control:focus-visible {
-  outline: 2px solid #4b55ec;
-  outline-offset: 4px;
-}
-.control svg {
-  width: 12px;
-  height: 12px;
-  flex-shrink: 0;
-}
-
-@media (max-width: 600px) {
+@media (max-width: 760px) {
   .scene {
     height: 355px;
   }
-  .control {
-    right: 10%;
-    bottom: 10%;
+  .services {
+    height: 320px;
+  }
+  .contact {
+    height: 270px;
   }
   .caption {
     bottom: 0;
@@ -160,7 +122,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .control {
-    display: none;
+  .scene[data-ready='true'] .fallback {
+    visibility: visible;
   }
 }

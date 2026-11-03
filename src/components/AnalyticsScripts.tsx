@@ -27,6 +27,8 @@ export function AnalyticsScripts() {
       <script
         id="analytics-worker-queue"
         type="text/partytown"
+        // Partytown marks executed scripts with a -x suffix, sometimes before hydration.
+        suppressHydrationWarning
         dangerouslySetInnerHTML={{ __html: initializeQueue }}
       />
       {/* Partytown loads this inert script in its worker, not synchronously. */}
@@ -34,6 +36,7 @@ export function AnalyticsScripts() {
       <script
         id="analytics-library"
         type="text/partytown"
+        suppressHydrationWarning
         src={`https://www.googletagmanager.com/gtag/js?id=${trackingId}`}
       />
     </>

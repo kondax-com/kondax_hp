@@ -167,9 +167,11 @@
   color: #fff;
 }
 .footer {
+  position: relative;
+  z-index: 3;
   background: #17213b;
   color: #d5d9e5;
-  padding: 65px 48px 0;
+  padding: 65px 48px 54px;
   margin-top: 40px;
 }
 .footerInner {
@@ -300,7 +302,7 @@
     font-size: 9px;
   }
   .footer {
-    padding: 42px 24px 0;
+    padding: 42px 24px 54px;
     margin-top: 0;
   }
   .footerTop {

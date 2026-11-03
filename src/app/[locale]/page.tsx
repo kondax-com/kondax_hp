@@ -196,7 +196,7 @@ export default async function Home({ params }: Props) {
   return (
     <div className={styles.home}>
       <section className={styles.hero} aria-labelledby="hero-title">
-        <div className={styles.heroCopy}>
+        <div className={styles.heroCopy} data-scene-avoid>
           <p className={styles.heroLabel}>
             <span aria-hidden="true" />
             {t('hero.label')}
@@ -220,11 +220,7 @@ export default async function Home({ params }: Props) {
           <p className={styles.heroNote}>{t('hero.note')}</p>
         </div>
         <div className={styles.heroArt}>
-          <FlowScene
-            pauseLabel={t('hero.pauseLabel')}
-            playLabel={t('hero.playLabel')}
-            sceneLabel={t('hero.visualLabel')}
-          />
+          <FlowScene sceneLabel={t('hero.visualLabel')} />
         </div>
         <div className={styles.heroBaseline} aria-hidden="true">
           <span>Technology, shaped around people.</span>
@@ -236,7 +232,7 @@ export default async function Home({ params }: Props) {
         className={styles.services}
         aria-labelledby="services-title"
       >
-        <div className={styles.sectionHeading}>
+        <div className={styles.sectionHeading} data-scene-avoid>
           <p className={styles.sectionLabel}>{t('services.label')}</p>
           <div>
             <h2 id="services-title">{t('services.title')}</h2>
@@ -246,31 +242,48 @@ export default async function Home({ params }: Props) {
           </div>
         </div>
         <div className={styles.serviceGrid}>
-          {services.map((service) => (
-            <article key={service.id} className={styles.service}>
-              <div className={styles.visualFrame}>
-                <ServiceVisual kind={service.id} />
-              </div>
-              <h3>{service.title}</h3>
-              <p>{service.description}</p>
-              <ul>
-                {service.examples.map((example) => (
-                  <li key={example}>
-                    <Check size={13} aria-hidden="true" />
-                    {example}
-                  </li>
-                ))}
-              </ul>
-            </article>
-          ))}
+          <div className={styles.serviceStage} aria-hidden="true">
+            <FlowScene variant="services" chapter={1} morph={0.55} />
+          </div>
+          <div className={styles.serviceStack}>
+            {services.map((service, index) => (
+              <article
+                key={service.id}
+                className={styles.service}
+                data-motion-item
+                data-scene-focus={(index + 1) / 3}
+              >
+                <div className={styles.visualFrame}>
+                  <ServiceVisual kind={service.id} />
+                </div>
+                <h3>{service.title}</h3>
+                <p>{service.description}</p>
+                <ul>
+                  {service.examples.map((example) => (
+                    <li key={example}>
+                      <Check size={13} aria-hidden="true" />
+                      {example}
+                    </li>
+                  ))}
+                </ul>
+              </article>
+            ))}
+          </div>
         </div>
         <Link href="/contact" className={styles.textLink}>
           {t('services.cta')}
           <ArrowUpRight size={18} aria-hidden="true" />
         </Link>
       </section>
-      <section id="work" className={styles.work} aria-labelledby="work-title">
-        <div className={styles.sectionHeading}>
+      <section
+        id="work"
+        className={styles.work}
+        aria-labelledby="work-title"
+        data-flow-anchor="work"
+        data-flow-chapter="2"
+        data-flow-morph="1"
+      >
+        <div className={styles.sectionHeading} data-scene-avoid>
           <p className={styles.sectionLabel}>{t('work.label')}</p>
           <div>
             <h2 id="work-title">{t('work.title')}</h2>
@@ -278,8 +291,13 @@ export default async function Home({ params }: Props) {
           </div>
         </div>
         <div className={styles.productGrid}>
-          {products.map((product) => (
-            <article key={product.id} className={styles.product}>
+          {products.map((product, index) => (
+            <article
+              key={product.id}
+              className={styles.product}
+              data-motion-item
+              data-scene-focus={(index + 1) / 2}
+            >
               <Link
                 href={`/work/${product.id}`}
                 className={`${styles.productImageLink} ${product.id === 'yadora' ? styles.yadora : styles.bocker}`}
@@ -328,6 +346,9 @@ export default async function Home({ params }: Props) {
         id="approach"
         className={styles.approach}
         aria-labelledby="approach-title"
+        data-flow-anchor="approach"
+        data-flow-chapter="3"
+        data-flow-morph="0.35"
       >
         <div className={styles.approachIntro}>
           <p className={styles.sectionLabel}>{t('approach.label')}</p>
@@ -340,7 +361,7 @@ export default async function Home({ params }: Props) {
         </div>
         <ol className={styles.steps}>
           {steps.map((step, index) => (
-            <li key={step.title}>
+            <li key={step.title} data-motion-item>
               <span className={styles.stepNumber} aria-hidden="true">
                 0{index + 1}
               </span>
@@ -370,11 +391,6 @@ export default async function Home({ params }: Props) {
         </div>
       </section>
       <section className={styles.contact} aria-labelledby="contact-title">
-        <div className={styles.contactOrb} aria-hidden="true">
-          <span />
-          <span />
-          <span />
-        </div>
         <div className={styles.contactContent}>
           <p className={styles.sectionLabel}>{t('contact.label')}</p>
           <h2 id="contact-title">{t('contact.title')}</h2>
@@ -386,6 +402,9 @@ export default async function Home({ params }: Props) {
             <ArrowUpRight size={21} aria-hidden="true" />
           </Link>
           <p className={styles.contactNote}>{t('contact.note')}</p>
+        </div>
+        <div className={styles.contactStage} aria-hidden="true">
+          <FlowScene variant="contact" chapter={4} morph={0.85} />
         </div>
       </section>
     </div>
