@@ -1,13 +1,19 @@
 'use client'
 
 import React, { useId, useState } from 'react'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'sonner'
 import { Button } from '@/components/Button'
 import { FadeIn } from '@/components/FadeIn'
-import { Textarea } from "@/components/ui/textarea"
+import { Textarea } from '@/components/ui/textarea'
 import { contactSchema, type ContactSchema } from '@/lib/schemats'
 import { useTranslations } from 'next-intl'
 import { Loader2 } from 'lucide-react'
@@ -19,12 +25,14 @@ const TextInput = React.forwardRef<
   let id = useId()
 
   return (
-    <div className="group relative z-0 transition-all focus-within:z-10">
+    <div className="group relative z-0 focus-within:z-10">
       <input
         type="text"
         id={id}
         ref={ref}
         {...props}
+        aria-invalid={Boolean(error)}
+        aria-describedby={error ? `${id}-error` : undefined}
         placeholder=" "
         className={`peer block w-full border bg-transparent px-6 pt-12 pb-4 text-sm text-neutral-950 ring-4 ring-transparent transition group-first:rounded-t-2xl group-last:rounded-b-2xl focus:border-neutral-950 focus:ring-neutral-950/5 focus:outline-hidden ${
           error ? 'border-red-500' : 'border-neutral-300'
@@ -32,13 +40,23 @@ const TextInput = React.forwardRef<
       />
       <label
         htmlFor={id}
-        className={`pointer-events-none absolute top-1/2 left-6 -mt-3 origin-left text-sm transition-all duration-200 peer-not-placeholder-shown:-translate-y-4 peer-not-placeholder-shown:scale-75 peer-not-placeholder-shown:font-semibold peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:font-semibold ${
-          error ? 'text-red-500 peer-not-placeholder-shown:text-red-500 peer-focus:text-red-500' : 'text-neutral-500 peer-not-placeholder-shown:text-neutral-950 peer-focus:text-neutral-950'
+        className={`absolute top-1/2 left-6 -mt-3 origin-left text-sm transition-[transform,color] duration-200 peer-not-placeholder-shown:-translate-y-4 peer-not-placeholder-shown:scale-75 peer-not-placeholder-shown:font-semibold peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:font-semibold motion-reduce:transition-none ${
+          error
+            ? 'text-red-600 peer-not-placeholder-shown:text-red-600 peer-focus:text-red-600'
+            : 'text-neutral-500 peer-not-placeholder-shown:text-neutral-950 peer-focus:text-neutral-950'
         }`}
       >
         {label}
       </label>
-      {error && <p className="absolute bottom-3 text-right w-[90%] left-6 text-xs text-red-500">{error}</p>}
+      {error && (
+        <p
+          id={`${id}-error`}
+          role="alert"
+          className="absolute bottom-3 left-6 w-[90%] text-right text-xs text-red-600"
+        >
+          {error}
+        </p>
+      )}
     </div>
   )
 })
@@ -65,6 +83,7 @@ export function ContactForm() {
   const t = useTranslations('ContactPage')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const messageId = useId()
+  const topicId = useId()
 
   const {
     register,
@@ -72,9 +91,10 @@ export function ContactForm() {
     setValue,
     watch,
     reset,
-    formState: { errors }
+    formState: { errors },
   } = useForm<ContactSchema>({
-    resolver: zodResolver(contactSchema)
+    resolver: zodResolver(contactSchema),
+    defaultValues: { category: 'contact' },
   })
 
   const selectedCategory = watch('category')
@@ -85,7 +105,7 @@ export function ContactForm() {
       const response = await fetch('/api/resend', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
+        body: JSON.stringify(data),
       })
 
       const result = await response.json()
@@ -120,6 +140,7 @@ export function ContactForm() {
             label={t('form.name')}
             {...register('name')}
             autoComplete="name"
+            aria-required="true"
             error={errors.name?.message}
           />
           <TextInput
@@ -127,6 +148,8 @@ export function ContactForm() {
             type="email"
             {...register('email')}
             autoComplete="email"
+            spellCheck={false}
+            aria-required="true"
             error={errors.email?.message}
           />
           <TextInput
@@ -142,19 +165,26 @@ export function ContactForm() {
           />
           <div className="flex flex-col gap-2 border-x border-neutral-300 px-6 py-6">
             <label htmlFor={messageId} className="text-sm text-neutral-500">
-              {t('form.messagePlaceholder')}
+              {t('form.messageLabel')}
             </label>
             <Textarea
               id={messageId}
               placeholder={t('form.messagePlaceholder')}
               {...register('message')}
+              aria-required="true"
               aria-invalid={Boolean(errors.message)}
-              aria-describedby={errors.message ? `${messageId}-error` : undefined}
+              aria-describedby={
+                errors.message ? `${messageId}-error` : undefined
+              }
               className="m-0 w-full border-none p-0 shadow-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-4"
               rows={10}
             />
             {errors.message && (
-              <p id={`${messageId}-error`} className="mt-1 text-right text-xs text-red-600">
+              <p
+                id={`${messageId}-error`}
+                role="alert"
+                className="mt-1 text-right text-xs text-red-600"
+              >
                 {errors.message.message}
               </p>
             )}
@@ -168,42 +198,53 @@ export function ContactForm() {
                 <RadioInput
                   label={t('form.budget.lt50')}
                   {...register('budget')}
-                  value="50万以下"
+                  value={t('form.budget.lt50')}
                 />
                 <RadioInput
                   label={t('form.budget.lt100')}
                   {...register('budget')}
-                  value="100万以下"
+                  value={t('form.budget.lt100')}
                 />
                 <RadioInput
                   label={t('form.budget.lt300')}
                   {...register('budget')}
-                  value="300万以下"
+                  value={t('form.budget.lt300')}
                 />
                 <RadioInput
                   label={t('form.budget.gte300')}
                   {...register('budget')}
-                  value="300万以上"
+                  value={t('form.budget.gte300')}
                 />
                 <RadioInput
                   label={t('form.budget.gte500')}
                   {...register('budget')}
-                  value="500万以上"
+                  value={t('form.budget.gte500')}
                 />
                 <RadioInput
                   label={t('form.budget.gte1000')}
                   {...register('budget')}
-                  value="1000万以上"
+                  value={t('form.budget.gte1000')}
                 />
               </div>
             </fieldset>
           </div>
           <div className="peer block w-full border border-neutral-300 bg-transparent px-6 py-4 text-base/6 text-neutral-950 ring-4 ring-transparent transition group-first:rounded-t-2xl group-last:rounded-b-2xl focus:border-neutral-950 focus:ring-neutral-950/5 focus:outline-hidden">
+            <label
+              htmlFor={topicId}
+              className="mb-2 block text-sm text-neutral-600"
+            >
+              {t('form.topicLabel')}
+            </label>
             <Select
+              name="category"
               value={selectedCategory}
               onValueChange={(value) => setValue('category', value)}
             >
-              <SelectTrigger className="h-full w-full border border-neutral-300">
+              <SelectTrigger
+                id={topicId}
+                aria-label={t('form.topicLabel')}
+                className="h-full w-full border border-neutral-300"
+              >
                 <SelectValue placeholder={t('form.topicPlaceholder')} />
               </SelectTrigger>
               <SelectContent className="peer flex w-full gap-2 border border-neutral-300 bg-white text-base/6 text-neutral-950 transition group-first:rounded-t-2xl group-last:rounded-b-2xl focus:border-neutral-500 focus:ring-neutral-500 focus:outline-hidden">
@@ -222,10 +263,15 @@ export function ContactForm() {
             </Select>
           </div>
         </div>
-        <Button type="submit" className="mt-10" disabled={isSubmitting} aria-label={t('form.submit')}>
+        <Button
+          type="submit"
+          className="mt-10"
+          disabled={isSubmitting}
+          aria-label={t('form.submit')}
+        >
           {isSubmitting ? (
             <div className="flex items-center gap-2">
-              <Loader2 className="animate-spin" />
+              <Loader2 className="animate-spin" aria-hidden="true" />
               {t('form.submitting')}
             </div>
           ) : (
@@ -236,4 +282,3 @@ export function ContactForm() {
     </FadeIn>
   )
 }
-

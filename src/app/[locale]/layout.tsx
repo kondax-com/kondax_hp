@@ -50,7 +50,7 @@ export default async function LocaleLayout({ children, params }: Props) {
   }
 
   return (
-    <html className="h-full bg-neutral-950 text-base antialiased" lang={locale}>
+    <html className="h-full bg-white text-base antialiased" lang={locale}>
       <head>
         <AnalyticsScripts />
       </head>

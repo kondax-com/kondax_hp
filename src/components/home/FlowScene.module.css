@@ -1,0 +1,166 @@
+.scene {
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  height: clamp(360px, 43vw, 620px);
+  min-width: 0;
+}
+
+.halo {
+  position: absolute;
+  inset: 8% 1% 14%;
+  z-index: -2;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse,
+    #e4e5ff99,
+    #e7eafa40 45%,
+    transparent 72%
+  );
+}
+
+.scene::after {
+  position: absolute;
+  bottom: 16%;
+  left: 25%;
+  z-index: -1;
+  width: 50%;
+  height: 7%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, #7f88b633, transparent 70%);
+  content: '';
+}
+
+.orbit {
+  position: absolute;
+  inset: 16% 3% 19%;
+  z-index: -1;
+  border: 1px solid #9aa1d424;
+  border-radius: 50%;
+  transform: rotate(-25deg) scaleY(0.72);
+}
+
+.orbit::before,
+.orbit::after {
+  position: absolute;
+  border: 1px solid #9aa1d41c;
+  border-radius: 50%;
+  content: '';
+}
+
+.orbit::before {
+  inset: -15%;
+}
+.orbit::after {
+  inset: 15%;
+}
+
+.canvas,
+.fallback {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.canvas {
+  opacity: 0;
+}
+.canvas canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.fallback svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.scene[data-ready='true'] .canvas {
+  opacity: 1;
+}
+.scene[data-ready='true'] .fallback {
+  visibility: hidden;
+}
+
+.caption {
+  position: absolute;
+  bottom: 5%;
+  left: 50%;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  width: max-content;
+  max-width: 90%;
+  color: #657087;
+  font-size: 0.6875rem;
+  line-height: 1.6;
+  letter-spacing: 0.04em;
+  transform: translateX(-50%);
+}
+
+.captionMark {
+  width: 0.4rem;
+  height: 0.4rem;
+  flex-shrink: 0;
+  border: 1px solid #7a80c8;
+  border-radius: 50%;
+}
+
+.control {
+  position: absolute;
+  right: 4%;
+  bottom: 12%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0.45rem 0.7rem;
+  border: 1px solid #d5d9e9;
+  border-radius: 2rem;
+  background: #f7f8fcdd;
+  color: #4b5672;
+  font: inherit;
+  font-size: 0.6875rem;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition:
+    background-color 0.2s,
+    border-color 0.2s;
+}
+
+.control:hover {
+  border-color: #858cbe;
+  background: #fff;
+}
+.control:focus-visible {
+  outline: 2px solid #4b55ec;
+  outline-offset: 4px;
+}
+.control svg {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+}
+
+@media (max-width: 600px) {
+  .scene {
+    height: 355px;
+  }
+  .control {
+    right: 10%;
+    bottom: 10%;
+  }
+  .caption {
+    bottom: 0;
+    font-size: 0.625rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .control {
+    display: none;
+  }
+}

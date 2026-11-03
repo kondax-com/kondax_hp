@@ -27,11 +27,11 @@ function Section({
   return (
     <Container className="group/section [counter-increment:section]">
       <div className="lg:flex lg:items-center lg:justify-end lg:gap-x-8 lg:group-even/section:justify-start xl:gap-x-20">
-        <div className="flex justify-center">
-          <FadeIn className="w-135 flex-none lg:w-180">
+        <div className="flex min-w-0 justify-center lg:flex-1">
+          <FadeIn className="w-full max-w-135 flex-none">
             <StylizedImage
               {...image}
-              sizes="(min-width: 1024px) 41rem, 31rem"
+              sizes="(min-width: 1024px) 42vw, (min-width: 640px) 540px, calc(100vw - 48px)"
               className="justify-center lg:justify-end lg:group-even/section:justify-start"
             />
           </FadeIn>

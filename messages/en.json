@@ -12,8 +12,8 @@
     "gallery": "Gallery"
   },
   "HomePage": {
-    "title": "Let's work together to create amazing software",
-    "description": "We are a development studio helping teams ship products that users love.",
+    "title": "KONDAX | AI Integration, Automation & Software Development",
+    "description": "KONDAX designs AI tools, automations and web applications around your workflow. Explore our development process, hospitality platform Yadora and salon platform Bocker, or discuss a project.",
     "getStarted": "Get Started",
     "learnMore": "Learn More",
     "clients_heading": "Integrations KONDAX excels at",
@@ -69,45 +69,57 @@
     }
   },
   "AboutPage": {
-    "title": "About Us",
-    "description": "We are a team of passionate developers and designers.",
-    "og_title": "About Us | KONDAX",
-    "og_description": "We are a development partner that helps you grow your business with a small team. We start with a minimal configuration, verify with KPIs, and invest only in areas that show results.",
+    "title": "About us",
+    "description": "Based in Tamba-Sasayama, Hyogo, KONDAX supports AI integration, workflow automation and software development.",
+    "og_title": "About us | KONDAX",
+    "og_description": "Learn how KONDAX starts with a practical problem, tests a focused build and improves it through daily use.",
     "intro": {
-      "title": "Run big with a small team.",
-      "p1": "We build systems with Edge runtime × SQL × Workflows × AI to let 10 people do the work of 30. Start small, invest only where results show, and optimize total cost.",
-      "p2": "We cover websites/LPs, LINE Official/Mini Apps, web apps/business systems, automation (n8n/Inngest), e-commerce (Shopify/Stripe) and AI (chat/summary/recommendation/RAG). We iterate continuously based on KPIs.",
-      "p3": "Security is standardized with Zero Trust, least privilege and audit logs. Even with a $5/month setup, we maintain enterprise-grade availability and operations. First reply within 24h and 1-week PoC to accelerate decisions."
+      "title": "Start with the work your team does every day.",
+      "p1": "Based in Tamba-Sasayama, Hyogo, KONDAX helps small businesses with AI integration, workflow automation and software development. We review your current tasks and tools, then agree on a focused scope to test.",
+      "p2": "Our work includes websites, LINE integrations, business applications, e-commerce, payments and AI-assisted search and writing. We also explore how to use your existing tools and design around the steps your team takes.",
+      "p3": "Test a small working version to review usability and its effect on the workflow. We also agree on the access controls, data handling, maintenance and operational conditions the project needs."
     },
     "stats": {
-      "stat1": { "value": "1 wk", "label": "PoC (validation)" },
-      "stat2": { "value": "6 mo", "label": "ROI guideline" },
-      "stat3": { "value": "−70%", "label": "Less manual work" },
-      "stat4": { "value": "99.9%", "label": "SLO (stable ops)" }
+      "stat1": {
+        "value": "Start small",
+        "label": "Test a focused scope"
+      },
+      "stat2": {
+        "value": "Workflow",
+        "label": "Design around real tasks"
+      },
+      "stat3": {
+        "value": "Measure",
+        "label": "Review changes after launch"
+      },
+      "stat4": {
+        "value": "Improve",
+        "label": "Plan ongoing support"
+      }
     },
     "culture": {
-      "eyebrow": "Culture",
-      "title": "Start small, move fast, scale by results.",
-      "description": "We launch with a minimal setup, align on numbers and improve continuously. We balance outcomes with safety (Zero Trust) tailored to your operations.",
+      "eyebrow": "What guides our work",
+      "title": "Test a working version. Improve it through use.",
+      "description": "Define the features to build and the changes to measure, then review them in daily use. Agree on priorities and costs before expanding the build or changing operations.",
       "items": {
         "item1": {
-          "title": "Outcome first",
-          "body": "Prioritize results over features. Weekly sprints → KPI validation. Invest only where it works."
+          "title": "Review what changes at work",
+          "body": "Choose what to measure, such as time spent on a task or duplicate entries, before development starts. Use the prototype and post-launch results to decide the next action."
         },
         "item2": {
-          "title": "Speed × Validation",
-          "body": "24h first reply and iterative PoCs keep decisions moving. We standardize non-stop operations."
+          "title": "Share software you can try",
+          "body": "Review a working prototype together to check screens and interactions. Agree on how often and in what format to share progress for the project."
         },
         "item3": {
-          "title": "Security & Trust",
-          "body": "Zero Trust, least privilege, audit logs by default. Transparent operations build long-term trust."
+          "title": "Design data handling and operations",
+          "body": "Review authentication, access permissions and logging for the information the system handles. Share constraints and agree on how it will be operated."
         }
       }
     },
     "team": {
       "person1": {
         "role": "Founder / Sole proprietor",
-        "message": "With the motto 'Systemize manual work to double your revenue,' I'm a development partner who stays close to your operations. Starting with a working prototype in 2 weeks, we improve together through actual usage, eliminating the 'this isn't what I imagined' problem. Using AI and automation to cut manual work by 70%, we co-create the optimal system for your unique business. Achieve ROI in 6 months, then ongoing growth support."
+        "message": "I want to turn repeated data entry and tasks that only one person understands into systems a team can keep using. We start by reviewing the current work and prototyping a focused part of it. Feedback from the people using it and the results of that work guide what we improve together."
       }
     }
   },
@@ -150,33 +162,35 @@
   },
   "ContactPage": {
     "title": "Contact",
-    "description": "We'd love to hear from you.",
-    "getInTouch": "Get in touch",
+    "description": "Discuss AI integration, workflow automation or software development with KONDAX.",
+    "getInTouch": "Discuss your workflow or project",
     "email": "Email",
     "phone": "Phone",
-    "og_title": "CONTACT | KONDAX",
-    "og_description": "KONDAX's contact page - We'd love to hear from you.",
-    "pageTitle": "Contact",
-    "pageDescription": "Please fill in the details and submit the form.",
+    "og_title": "Discuss your project | KONDAX",
+    "og_description": "Start a conversation before the requirements or budget are defined. Tell us about a task taking time or a system you want to build.",
+    "pageTitle": "Discuss your project",
+    "pageDescription": "Your requirements and budget can still be undecided. Tell us which tasks are taking time or what you would like to build.",
     "form": {
-      "heading": "Please contact us using the form below.",
-      "name": "Name",
-      "email": "Email",
-      "company": "Company",
-      "phone": "Phone",
-      "messagePlaceholder": "Your message",
+      "heading": "You can start here before the requirements or budget are defined. Tell us about the current situation.",
+      "name": "Name (required)",
+      "email": "Email (required)",
+      "company": "Company (optional)",
+      "phone": "Phone (optional)",
+      "messagePlaceholder": "For example, we want to review copying bookings into spreadsheets…",
       "budget": {
-        "legend": "Estimated budget",
-        "lt50": "Up to ¥500,000",
-        "lt100": "Up to ¥1,000,000",
-        "lt300": "Up to ¥3,000,000",
-        "gte300": "¥3,000,000+",
-        "gte500": "¥5,000,000+",
-        "gte1000": "¥10,000,000+"
+        "legend": "Estimated budget (optional)",
+        "lt50": "Under ¥500,000",
+        "lt100": "¥500,000 to under ¥1,000,000",
+        "lt300": "¥1,000,000 to under ¥3,000,000",
+        "gte300": "¥3,000,000 to under ¥5,000,000",
+        "gte500": "¥5,000,000 to under ¥10,000,000",
+        "gte1000": "¥10,000,000 or more"
       },
-      "topicPlaceholder": "Select a topic",
-      "submit": "Submit",
-      "submitting": "Submitting..."
+      "topicPlaceholder": "Select a topic…",
+      "submit": "Send your inquiry",
+      "submitting": "Sending…",
+      "messageLabel": "Your inquiry (required)",
+      "topicLabel": "Topic (optional)"
     },
     "topics": {
       "contact": "General inquiry",
@@ -187,107 +201,107 @@
     },
     "partner": {
       "heading": "Looking for partners",
-      "description": "We're seeking business partners to co-create new value.Let's collaborate across development, marketing and sales, and grow together by leveraging each other's strengths."
+      "description": "We are looking for partners in development, marketing and sales. Tell us about your expertise or a project you would like to work on together."
     }
   },
   "ProcessPage": {
-    "title": "Process",
-    "description": "Learn about our development process.",
-    "og_title": "PROCESS | KONDAX",
-    "og_description": "KONDAX's process - Learn about our development process.",
+    "title": "How we work",
+    "description": "Explore how KONDAX reviews your workflow, prototypes a focused build and supports improvements after launch.",
+    "og_title": "How we work | KONDAX",
+    "og_description": "Define a priority problem, test a small working version and agree on development scope, cost, delivery and operations.",
     "intro": {
-      "title": "Co-creating outcome-driven development",
-      "description": "With a <strong>build-then-improve</strong> approach, we build resilient systems. Start small, validate impact, and safely scale only what works — crafting the right solution together as your business grows."
+      "title": "Test a focused build in your real workflow.",
+      "description": "Connect <strong>discovery, prototyping and improvement after launch</strong>. Review the work with the people who will use it and clarify the features they need. Agree on scope, costs and delivery before work begins."
     },
     "discover": {
-      "title": "Discovery & Problem Finding",
-      "p1": "Tell us your <strong>pain points and goals</strong>. We observe real operations on-site to find time sinks and common error points.",
-      "p2": "We quantify <strong>wasted time and cost</strong> (e.g., ‘3 days/month reporting’, ‘5 missed order checks/month’) and <strong>prioritize</strong> the highest-impact fixes.",
-      "p3": "We provide a proposal that clarifies <strong>ROI</strong> (e.g., ‘Invest ¥X → save Y hours/year, cut ¥Z cost’). If impact is unlikely, we’ll say so honestly.",
+      "title": "Understand the work and the problem",
+      "p1": "Tell us your <strong>current difficulties and goals</strong>. We review your tasks and tools, with an on-site workflow review where needed.",
+      "p2": "Review time spent on reports, duplicate data entry and handoffs that get delayed. Use the available information to <strong>decide what to address first</strong>.",
+      "p3": "Our proposal sets out the <strong>development scope, cost and assumptions behind the expected impact</strong>. Review integration constraints and operational considerations before deciding what to build.",
       "tasks": {
-        "title": "Activities in this phase",
-        "i1": "On-site visit & observation",
-        "i2": "Estimate cost-saving effect",
-        "i3": "Calculate payback period",
-        "i4": "Interview frontline staff",
-        "i5": "Run small tests",
-        "i6": "Draft concrete improvements"
+        "title": "What we review at this stage",
+        "i1": "Current workflow and tools",
+        "i2": "Time and cost of current tasks",
+        "i3": "How to measure the effect",
+        "i4": "Difficulties for the people using it",
+        "i5": "Scope to test in a prototype",
+        "i6": "Development priorities and estimate"
       }
     },
     "build": {
-      "title": "Build & Improve Cycle",
-      "p1": "We use a <strong>‘start small, grow big’</strong> approach. Ship core features in 1–2 weeks, validate usability and impact with actual usage, and quickly refine.",
-      "p2": "Unlike big-bang plans, we <strong>welcome course changes</strong>. We respond within <strong>24 hours</strong> and keep the system optimal for ‘now’.",
-      "p3": "We demo working software every two weeks and review results numerically so you can <strong>feel the impact of your investment</strong>.",
+      "title": "Prototype, build and review",
+      "p1": "<strong>Prototype the priority features</strong> so your team can try them. Review usability and gaps in the workflow to clarify what is needed for launch.",
+      "p2": "If requirements change, <strong>review the effect on cost and delivery</strong> before proceeding. Agree on which features to add now and which to consider later.",
+      "p3": "Review <strong>working software and test results</strong> throughout development. The frequency and format of progress updates are agreed to fit the project and your team.",
       "values": {
-        "title": "How this benefits you",
+        "title": "What you can review during development",
         "i1": {
-          "label": "Confidence",
-          "body": "Daily updates and 2-week reviews make spending transparent."
+          "label": "Progress",
+          "body": "Review completed work and the next tasks in the format agreed for the project."
         },
         "i2": {
-          "label": "Flexibility",
-          "body": "Adapt to changes and new ideas without extra cost."
+          "label": "Changes",
+          "body": "Assess new requests after reviewing their scope, costs and effect on delivery."
         },
         "i3": {
-          "label": "Early impact",
-          "body": "See benefits from week one and scale with confidence."
+          "label": "Staged decisions",
+          "body": "Use the prototype and review results to decide whether to develop further."
         },
         "i4": {
-          "label": "Lower risk",
-          "body": "Start small to avoid big failures and fix issues early."
+          "label": "Early checks",
+          "body": "Test a focused scope to identify usability and integration issues before launch."
         }
       }
     },
     "deliver": {
-      "title": "Launch & Impact Review",
-      "p1": "We start with a <strong>trial period</strong> using real data, let your team get comfortable, then go live.",
-      "p2": "Post-launch, we provide <strong>24h support</strong> for issues like outages or how-tos so your operations never stop.",
-      "p3": "We measure <strong>impact</strong> with numbers (hours saved, cost reduced, revenue up) and propose further improvements if needed.",
+      "title": "Launch, operate and improve",
+      "p1": "Plan <strong>testing and a limited rollout</strong> to fit the effect on your operations. Review the required data and procedures, then launch when the team is prepared.",
+      "p2": "Agree on the <strong>support scope and contact methods</strong> before launch. Monitoring, incident response and support hours are defined for the system and the people operating it.",
+      "p3": "<strong>Review the measures agreed for the project</strong>, such as task duration or duplicate entries, before and after launch. Identify improvements and estimate the scope and cost of further work.",
       "tasks": {
-        "title": "Activities in this phase",
+        "title": "What we review at this stage",
         "i1": {
-          "title": "Phased go-live",
-          "body": "<strong>1 week in test</strong>: validate features with real data<br></br><strong>1 week pilot</strong>: limited rollout to specific teams/users<br></br><strong>Company-wide</strong>: full launch after validation<br></br>Have a quick rollback plan just in case"
+          "title": "A rollout plan for your workflow",
+          "body": "<strong>Testing</strong>: check required features and integrations<br></br><strong>Limited rollout</strong>: test a focused scope in daily work<br></br><strong>Launch</strong>: share review results and operating procedures<br></br>Plan migration and rollback options around the effect on operations."
         },
         "i2": {
-          "title": "Enterprise-grade operations",
-          "body": "<strong>Google Cloud/Vercel/Cloudflare</strong>: 99.99% uptime cloud infra<br></br><strong>24/7 monitoring</strong>: detect and act on anomalies fast<br></br><strong>Automated backups</strong>: daily with 30-day retention<br></br><strong>Security</strong>: SSL, access control, firewall<br></br><strong>ZERO TRUST</strong>: stronger data access posture"
+          "title": "Operations designed for the requirements",
+          "body": "<strong>Cloud environment</strong>: consider services such as Google Cloud, Vercel and Cloudflare for the requirements<br></br><strong>Monitoring</strong>: agree on the conditions to monitor and people to notify<br></br><strong>Backups</strong>: define data coverage, frequency and retention<br></br><strong>Access management</strong>: review authentication, permissions and logs<br></br><strong>Operating cost</strong>: review expected usage and maintenance needs"
         },
         "i3": {
-          "title": "Ongoing growth support",
-          "body": "<strong>Monthly reviews</strong>: report impact and propose improvements<br></br><strong>Feature expansion</strong>: plan/implement as you grow<br></br><strong>Incident response</strong>: first response within 12h on average<br></br><strong>Training</strong>: regular sessions to boost adoption"
+          "title": "Support after launch",
+          "body": "<strong>Reviews</strong>: check usage and impact at agreed intervals<br></br><strong>Additional features</strong>: review priorities and estimates before development<br></br><strong>Inquiries</strong>: agree on scope, hours and contact channels in advance<br></br><strong>Training</strong>: discuss the sessions and documentation your team needs"
         }
       }
     },
     "values": {
-      "eyebrow": "Our Strengths",
-      "title": "Six values that fuel SMB growth",
-      "description": "We deliver systems that <strong>show results, are easy to use, and make sense for cost</strong> — not enterprise-scale overkill. We grow with your business as a long-term partner.",
+      "eyebrow": "What we consider",
+      "title": "Six considerations for software your team can keep using.",
+      "description": "Design for daily work and <strong>a process that lets you review the effect</strong>. Connect development reviews with the way the system will be operated after launch.",
       "items": {
         "i1": {
-          "title": "Thorough listening",
-          "body": "<strong>Frontline-focused</strong>: hear from actual users, not just execs<br></br><strong>Industry-aware</strong>: understand challenges across sectors<br></br><strong>Budget-fit</strong>: right-sized proposals from ¥50k–¥2M/month"
+          "title": "Understand the real workflow",
+          "body": "<strong>People using it</strong>: hear their difficulties and constraints<br></br><strong>Workflow</strong>: review the order of entry, checks and handoffs<br></br><strong>Priorities</strong>: agree on scope to fit the budget and objective"
         },
         "i2": {
-          "title": "Reliable schedules",
-          "body": "<strong>2-week progress checks</strong>: build in small wins<br></br><strong>Flexible to change</strong>: adjust scope without extra cost (large changes quoted)<br></br><strong>Evidence-based estimates</strong>: based on past delivery"
+          "title": "Share progress and changes",
+          "body": "<strong>Reviews</strong>: agree on the format and frequency of updates<br></br><strong>Requirement changes</strong>: review the effect on cost and delivery<br></br><strong>Estimates</strong>: state the feature scope and integration assumptions"
         },
         "i3": {
-          "title": "Ops-first design",
-          "body": "<strong>Fit to your workflow</strong>: leverage existing processes<br></br><strong>Stepwise rollout</strong>: adapt gradually, not all at once<br></br><strong>Training included</strong>: ops manuals and sessions"
+          "title": "Design around daily tasks",
+          "body": "<strong>Usable screens</strong>: prototype around the actual order of work<br></br><strong>Staged rollout</strong>: test a focused workflow through use<br></br><strong>Preparation</strong>: discuss training and documentation needs"
         },
         "i4": {
-          "title": "Clear reporting",
-          "body": "<strong>Daily Slack updates</strong> in plain language<br></br><strong>Quantified results</strong>: hours saved, revenue up<br></br><strong>Early issue sharing</strong>: transparent risks and remedies"
+          "title": "Explain the work clearly",
+          "body": "<strong>Progress</strong>: share completed work and remaining tasks<br></br><strong>Impact</strong>: compare agreed measures before and after launch<br></br><strong>Issues</strong>: explain constraints, problems and proposed actions"
         },
         "i5": {
-          "title": "Long-term partnership",
-          "body": "<strong>Aftercare</strong>: 2 months free post-launch (then support plan)<br></br><strong>Scale with growth</strong>: expand systems as revenue rises<br></br><strong>Vendor changes</strong>: help with migration if needed"
+          "title": "Plan for changes after launch",
+          "body": "<strong>Maintenance</strong>: agree on support scope and costs in advance<br></br><strong>Features</strong>: consider improvements based on use<br></br><strong>Migration</strong>: review conditions for moving to another system"
         },
         "i6": {
-          "title": "Practical modern tech",
-          "body": "<strong>AI for efficiency</strong>: automate docs and support<br></br><strong>Cloud-first</strong>: no servers to buy<br></br><strong>Security standard</strong>: privacy and encryption by default"
+          "title": "Choose technology for the task",
+          "body": "<strong>AI</strong>: consider suitable uses such as search or document assistance<br></br><strong>Cloud services</strong>: select a setup for expected usage and operations<br></br><strong>Data</strong>: design protection and access around the information handled"
         }
       }
     }
@@ -823,5 +837,146 @@
     "zipcode": "〒669-2133",
     "address": "Tamba Shino, Hyogo Prefecture",
     "address2": "Imaichi, Shino-machi, Shimano-cho, Hyogo Prefecture"
+  },
+  "HomeExperience": {
+    "hero": {
+      "label": "AI integration, automation & software development",
+      "titleLines": [
+        "Turn manual tasks",
+        "into connected",
+        "workflows."
+      ],
+      "description": "KONDAX builds AI tools, automations and web applications around the way your team works. We start with a practical problem, test a small working version, and improve it through daily use.",
+      "primaryCta": "Discuss your project",
+      "secondaryCta": "Explore our services",
+      "note": "You can start a conversation before the requirements are defined.",
+      "visualLabel": "Connect the work behind your business.",
+      "visualHint": "Responds to your pointer",
+      "pauseLabel": "Pause animation",
+      "playLabel": "Play animation"
+    },
+    "services": {
+      "label": "What we do",
+      "title": "Start with the work your team needs to do.",
+      "description": "Repeated data entry, hard-to-find information, complicated bookings. Tell us where the work slows down, and we will explore a way to address it.",
+      "items": [
+        {
+          "id": "ai",
+          "title": "Put your knowledge to work with AI.",
+          "description": "Build AI that answers from your manuals and FAQs, summarizes documents, or drafts content. We also design the points where a person needs to review the work.",
+          "examples": [
+            "Internal knowledge search",
+            "Customer inquiries",
+            "Document assistance"
+          ]
+        },
+        {
+          "id": "automation",
+          "title": "Connect routine tasks across your tools.",
+          "description": "Link work across bookings, customer records and billing tools. We look for duplicate entries and handoffs that leave people waiting.",
+          "examples": [
+            "Tool & API integrations",
+            "Booking & customer data",
+            "Automated reports & notifications"
+          ]
+        },
+        {
+          "id": "development",
+          "title": "Build around the way your team works.",
+          "description": "Develop websites and business applications that follow the steps people take at work. Test a prototype together to clarify the features you need.",
+          "examples": [
+            "Websites & landing pages",
+            "Web & business applications",
+            "Booking & payment systems"
+          ]
+        }
+      ],
+      "cta": "Discuss your workflow"
+    },
+    "work": {
+      "label": "Products we have built",
+      "title": "Software shaped by the work behind it.",
+      "description": "Explore our product design and development for hospitality and salon operations.",
+      "allCta": "Explore more development work",
+      "items": [
+        {
+          "id": "yadora",
+          "name": "Yadora",
+          "category": "Hospitality CRM & PMS",
+          "title": "Connect guest relationships with daily operations.",
+          "description": "Use consented guest information for AI-assisted return-visit campaigns and direct bookings. Yadora connects those touchpoints with reservations, guest registers and housekeeping.",
+          "cta": "Explore the Yadora project",
+          "imageAlt": "The official Yadora hospitality CRM and PMS website",
+          "tags": [
+            "Hospitality CRM",
+            "AI marketing",
+            "Bookings & housekeeping"
+          ]
+        },
+        {
+          "id": "bocker",
+          "name": "Bocker",
+          "category": "Salon booking & customer management",
+          "title": "Connect each booking to the next visit.",
+          "description": "Bring online bookings, treatment records and revenue insights around the same customer profile. Bocker supports staff handoffs and keeps clients connected through LINE notifications and loyalty points.",
+          "cta": "Explore the Bocker project",
+          "imageAlt": "The official Bocker salon booking and customer management website",
+          "tags": [
+            "Online booking",
+            "Client records",
+            "LINE integration"
+          ]
+        }
+      ]
+    },
+    "approach": {
+      "label": "How we work",
+      "title": "Test a working version. Improve it through use.",
+      "description": "Start with a priority problem and a focused build. Review it in the real workflow before deciding what to develop next.",
+      "steps": [
+        {
+          "title": "Understand the work and set priorities",
+          "description": "Review your current tasks and tools, then agree on the problem to address and the budget to work within."
+        },
+        {
+          "title": "Build a version your team can try",
+          "description": "Prototype the essential features and test them with the people who will use them. Their feedback helps define the requirements."
+        },
+        {
+          "title": "Support use and plan improvements",
+          "description": "Review the workflow after launch and agree on what to improve. Define the scope of maintenance and support in advance."
+        }
+      ],
+      "cta": "Explore our development process"
+    },
+    "faq": {
+      "label": "Before we talk",
+      "title": "A few questions you may have.",
+      "items": [
+        {
+          "question": "Can we talk before we know what to build?",
+          "answer": "Yes. Start with a task that is causing trouble, such as entering the same information into several tools. We can review the current workflow together and decide where to begin."
+        },
+        {
+          "question": "How are cost and delivery time determined?",
+          "answer": "We estimate after reviewing the required features, integrations and ongoing operations. We can separate an initial test from later development to fit your budget."
+        },
+        {
+          "question": "Can we keep the tools we already use?",
+          "answer": "We explore connections with your existing website, LINE, booking or payment tools. We review available APIs and service terms before confirming the integration scope."
+        },
+        {
+          "question": "Can you help after the system goes live?",
+          "answer": "Yes. We can discuss maintenance, operations and additional features to fit your system and workflow. The scope and costs are agreed in advance."
+        }
+      ]
+    },
+    "contact": {
+      "label": "Start a conversation",
+      "title": "Tell us which tasks are taking up your day.",
+      "description": "Bring a project you want to build or a workflow you want to review. We will look at your current tasks and tools together and explore the next step.",
+      "cta": "Discuss your project",
+      "note": "We will review your message and get back to you."
+    }
   }
 }

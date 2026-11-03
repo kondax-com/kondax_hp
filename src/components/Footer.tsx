@@ -1,100 +1,82 @@
+import { useLocale, useTranslations } from 'next-intl'
+import { ArrowUpRight } from 'lucide-react'
 import { Link } from '@/i18n/routing'
-
-import { Container } from '@/components/Container'
-import { FadeIn } from '@/components/FadeIn'
-import { Logo } from '@/components/Logo'
-import { useTranslations } from 'next-intl'
-import { socialMediaProfiles } from '@/components/SocialMedia'
-
-const navigation = [
-  {
-    title: 'Services',
-    links: [
-      { title: 'Yadora', href: '/work/yadora' },
-      { title: 'Bocker', href: '/work/bocker' },
-      { title: 'Gallery', href: '/work/gallery' },
-      {
-        title: (
-          <>
-            See all <span aria-hidden="true">&rarr;</span>
-          </>
-        ),
-        href: '/work',
-      },
-    ],
-  },
-  {
-    title: 'Company',
-    links: [
-      { title: 'About', href: '/about' },
-      { title: 'Process', href: '/process' },
-      { title: 'Blog', href: '/blog' },
-      { title: 'News', href: '/news' },
-      { title: 'Contact us', href: '/contact' },
-    ],
-  },
-  {
-    title: 'Connect',
-    links: socialMediaProfiles,
-  },
-]
-
-function Navigation() {
-  return (
-    <nav>
-      <ul role="list" className="grid grid-cols-2 gap-8 sm:grid-cols-3">
-        {navigation.map((section, sectionIndex) => (
-          <li key={sectionIndex}>
-            <div className="font-display text-sm font-semibold tracking-wider text-neutral-950">
-              {section.title}
-            </div>
-            <ul role="list" className="mt-4 text-sm text-neutral-700">
-              {section.links.map((link, linkIndex) => (
-                <li key={linkIndex} className="mt-4">
-                  <Link
-                    href={link.href}
-                    className="transition hover:text-neutral-950"
-                  >
-                    {link.title}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </li>
-        ))}
-      </ul>
-    </nav>
-  )
-}
-
-function FooterContent() {
-  const t = useTranslations('Footer')
-  return (
-    <div className="max-w-sm">
-      <Logo className="h-8" fillOnHover />
-      <div className="mt-4 text-xs leading-relaxed text-neutral-700 md:text-sm">
-        {t('messages')}
-      </div>
-    </div>
-  )
-}
+import { Wordmark } from '@/components/Wordmark'
+import styles from '@/components/SiteChrome.module.css'
 
 export function Footer() {
+  const locale = useLocale()
+  const t = useTranslations('Navigation')
+  const ja = locale === 'ja'
+  const groups = [
+    {
+      title: ja ? 'サービス・プロダクト' : 'Services & products',
+      links: [
+        { href: '/#services', label: ja ? 'できること' : 'Services' },
+        { href: '/work/yadora', label: 'Yadora' },
+        { href: '/work/bocker', label: 'Bocker' },
+        { href: '/work/gallery', label: t('gallery') },
+      ],
+    },
+    {
+      title: ja ? 'KONDAXについて' : 'About KONDAX',
+      links: [
+        { href: '/about', label: t('about') },
+        { href: '/process', label: t('process') },
+        { href: '/blog', label: t('blog') },
+        { href: '/news', label: t('news') },
+      ],
+    },
+  ]
   return (
-    <Container as="footer" className="mt-24 w-full sm:mt-32 lg:mt-40">
-      <FadeIn>
-        <div className="grid grid-cols-1 gap-x-8 gap-y-16 lg:grid-cols-2">
-          <Navigation />
-          <div className="flex w-full lg:justify-end">
-            <FooterContent />
+    <footer className={styles.footer}>
+      <div className={styles.footerInner}>
+        <div className={styles.footerTop}>
+          <div className={styles.footerBrand}>
+            <Link href="/" aria-label={ja ? 'KONDAX ホーム' : 'KONDAX home'}>
+              <Wordmark />
+            </Link>
+            <p>
+              {ja
+                ? '現場の困りごとから、\n使い続けられる仕組みを。'
+                : 'Connected workflows.\nBuilt around your people.'}
+            </p>
+            <Link href="/contact" className={styles.footerContact}>
+              {ja ? '業務・開発の相談をする' : 'Discuss your project'}
+              <ArrowUpRight size={17} aria-hidden="true" />
+            </Link>
           </div>
+          <nav
+            className={styles.footerNav}
+            aria-label={ja ? 'フッターナビゲーション' : 'Footer navigation'}
+          >
+            {groups.map((group) => (
+              <div key={group.title}>
+                <h2>{group.title}</h2>
+                <ul>
+                  {group.links.map((item) => (
+                    <li key={item.href}>
+                      <Link href={item.href}>{item.label}</Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </nav>
         </div>
-        <div className="mt-12 mb-10 flex flex-wrap items-end justify-end gap-x-6 gap-y-4 border-t border-neutral-950/10 pt-12">
-          <p className="text-xs text-neutral-700">
-            © KONDAX {new Date().getFullYear()}
+        <div className={styles.footerBottom}>
+          <p>© {new Date().getFullYear()} KONDAX</p>
+          <p>
+            {ja
+              ? '兵庫県丹波篠山市から、全国の現場へ。'
+              : 'Based in Hyogo, Japan. Building for your business.'}
           </p>
+          <Link href="/contact">
+            {t('contact')}
+            <ArrowUpRight size={12} aria-hidden="true" />
+          </Link>
         </div>
-      </FadeIn>
-    </Container>
+      </div>
+    </footer>
   )
 }
