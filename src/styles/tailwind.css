@@ -5,8 +5,6 @@
 html { scroll-behavior: smooth; scroll-padding-top: 100px; }
 body { font-family: Arial, 'Hiragino Kaku Gothic ProN', 'Yu Gothic', Meiryo, sans-serif; }
 button, a, summary { touch-action: manipulation; -webkit-tap-highlight-color: #4b55d61a; }
-.site-wordmark { display: inline-flex; align-items: center; gap: 9px; font-family: Arial, sans-serif; font-size: 23px; font-weight: 750; letter-spacing: -.045em; line-height: 1; }
-@media (max-width: 760px) { .site-wordmark { font-size: 20px; gap: 6px; } .site-wordmark svg { width: 23px; height: 23px; } }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 
 .menu-panel {

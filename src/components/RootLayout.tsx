@@ -6,7 +6,7 @@ import { ArrowUpRight, Menu, X } from 'lucide-react'
 import { Link, usePathname } from '@/i18n/routing'
 import { Footer } from '@/components/Footer'
 import { GoogleAnalytics } from '@/components/GoogleAnalytics'
-import { Wordmark } from '@/components/Wordmark'
+import { Logo, Logomark } from '@/components/Logo'
 import styles from '@/components/SiteChrome.module.css'
 
 export function RootLayout({ children }: { children: React.ReactNode }) {
@@ -54,7 +54,8 @@ export function RootLayout({ children }: { children: React.ReactNode }) {
             aria-label={ja ? 'KONDAX ホーム' : 'KONDAX home'}
             className={styles.brand}
           >
-            <Wordmark />
+            <Logomark className="h-8 sm:hidden" fillOnHover />
+            <Logo className="hidden h-8 sm:block" fillOnHover />
           </Link>
           <nav
             className={styles.desktopNav}
@@ -111,7 +112,8 @@ export function RootLayout({ children }: { children: React.ReactNode }) {
         }}
       >
         <div className={styles.menuTop}>
-          <Wordmark />
+          <Logomark className="h-8 sm:hidden" fillOnHover />
+          <Logo className="hidden h-8 sm:block" fillOnHover />
           <button
             type="button"
             onClick={closeMenu}

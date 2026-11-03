@@ -1,7 +1,7 @@
 import { useLocale, useTranslations } from 'next-intl'
 import { ArrowUpRight } from 'lucide-react'
 import { Link } from '@/i18n/routing'
-import { Wordmark } from '@/components/Wordmark'
+import { Logo } from '@/components/Logo'
 import styles from '@/components/SiteChrome.module.css'
 
 export function Footer() {
@@ -34,7 +34,7 @@ export function Footer() {
         <div className={styles.footerTop}>
           <div className={styles.footerBrand}>
             <Link href="/" aria-label={ja ? 'KONDAX ホーム' : 'KONDAX home'}>
-              <Wordmark />
+              <Logo className="h-8" fillOnHover invert />
             </Link>
             <p>
               {ja
