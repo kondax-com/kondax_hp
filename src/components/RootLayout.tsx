@@ -23,12 +23,12 @@ export function RootLayout({ children }: { children: React.ReactNode }) {
     { href: '/#services', label: ja ? 'できること' : 'Services' },
     { href: '/work', label: ja ? '開発プロダクト' : 'Our work' },
     { href: '/about', label: t('about') },
+    { href: '/blog', label: ja ? 'ブログ' : t('blog') },
+    { href: '/news', label: t('news') },
   ]
   const extraLinks = [
     { href: '/process', label: t('process') },
     { href: '/work/gallery', label: t('gallery') },
-    { href: '/blog', label: t('blog') },
-    { href: '/news', label: t('news') },
   ]
 
   useEffect(() => {
