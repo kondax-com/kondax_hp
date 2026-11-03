@@ -1,5 +1,7 @@
 .scene {
   position: relative;
+  pointer-events: none;
+  overflow: clip;
   isolation: isolate;
   width: 100%;
   height: clamp(360px, 43vw, 620px);

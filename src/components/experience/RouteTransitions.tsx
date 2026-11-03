@@ -15,7 +15,11 @@ import {
   isVisibleRoute,
   isSameLocale,
   normalizePathname,
+  scrollEntryKey,
+  withScrollEntry,
+  ScrollPositions,
   waitForVisibleImages,
+  type ScrollPosition,
   type RouteReadyDetail,
   type TransitionTarget,
 } from './route-transition-utils'
@@ -28,6 +32,8 @@ type Request = Intent & {
   committed: boolean
   readyStarted: boolean
   kind: 'push' | 'observed'
+  entryKey: string | null
+  restorePosition: ScrollPosition | null
   abort: AbortController
   watchdog?: ReturnType<typeof setTimeout>
 }
@@ -61,6 +67,10 @@ export function RouteTransitions({
     let active: Request | null = null
     let queued: Intent | null = null
     let lastPath = window.location.pathname
+    let entryHref = window.location.href
+    let currentEntry: string | null = null
+    let popstateHref: string | null = null
+    const positions = new ScrollPositions(100)
     const snapshots = new Map<HTMLElement, MainSnapshot>()
     const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
     const reduced = () =>
@@ -71,6 +81,50 @@ export function RouteTransitions({
     const announce = (text: string) => {
       if (statusRef.current) statusRef.current.textContent = text
     }
+
+    function syncEntry(forceNew = false, fromPopState = false) {
+      const state = window.history.state as unknown
+      const existing = scrollEntryKey(state)
+      const copiedFromPrevious =
+        !fromPopState &&
+        entryHref !== window.location.href &&
+        existing === currentEntry
+      let key = !forceNew && !copiedFromPrevious ? existing : null
+      if (!key) {
+        key = `kondax-${crypto.randomUUID()}`
+        try {
+          window.history.replaceState(
+            withScrollEntry(state, key),
+            '',
+            window.location.href,
+          )
+        } catch {
+          // If history metadata is unavailable, leave restoration to the browser.
+          key = null
+        }
+      }
+      currentEntry = key
+      entryHref = window.location.href
+      return key
+    }
+
+    function rememberScroll() {
+      positions.remember(syncEntry(), { x: window.scrollX, y: window.scrollY })
+    }
+
+    function restoreScroll(request: Request) {
+      const position =
+        request.kind === 'push' ? { x: 0, y: 0 } : request.restorePosition
+      if (position)
+        window.scrollTo({
+          left: position.x,
+          top: position.y,
+          behavior: 'instant',
+        })
+    }
+
+    syncEntry()
+    rememberScroll()
 
     function phase(value: TransitionPhase) {
       signal.phase = value
@@ -159,8 +213,8 @@ export function RouteTransitions({
       restore()
       active = null
       lastPath = window.location.pathname
-      if (!failed && request.kind === 'push')
-        window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
+      if (!failed) restoreScroll(request)
+      if (!needsDocumentRecovery) rememberScroll()
       phase('idle')
       if (!failed) {
         main()?.focus({ preventScroll: true })
@@ -247,8 +301,8 @@ export function RouteTransitions({
       )
         return
       request.readyStarted = true
-      if (request.kind === 'push')
-        window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
+      if (request.kind === 'push') request.entryKey = syncEntry(true)
+      restoreScroll(request)
       const element = main()
       if (element) await waitForVisibleImages(element, request.abort.signal)
       if (
@@ -258,10 +312,9 @@ export function RouteTransitions({
       )
         return
       clearTimeout(request.watchdog)
-      // Next's scroll handler can run after the template layout effect. Reset
-      // after image decode and paint as well, without changing history scroll.
-      if (request.kind === 'push')
-        window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
+      // Reapply the requested position after the committed DOM, image decode
+      // and paint have settled: new pages start at the top, history restores its entry.
+      restoreScroll(request)
       phase('revealing')
       if (await animate(request, 0, 440, true)) finish(request)
     }
@@ -311,6 +364,7 @@ export function RouteTransitions({
         queued = intent
         return
       }
+      if (!active) rememberScroll()
       const previous = active
       if (previous) {
         previous.abort.abort()
@@ -323,6 +377,8 @@ export function RouteTransitions({
         committed: false,
         readyStarted: false,
         kind: 'push',
+        entryKey: null,
+        restorePosition: null,
         abort: new AbortController(),
       }
       active = request
@@ -361,6 +417,7 @@ export function RouteTransitions({
         clearTimeout(active.watchdog)
       }
       queued = null
+      const entryKey = syncEntry()
       const request: Request = {
         id: ++signal.requestId,
         href: window.location.pathname + window.location.search,
@@ -371,6 +428,8 @@ export function RouteTransitions({
         committed: true,
         readyStarted: false,
         kind: 'observed',
+        entryKey,
+        restorePosition: positions.get(entryKey),
         abort: new AbortController(),
       }
       active = request
@@ -418,6 +477,7 @@ export function RouteTransitions({
         },
         window.location.href,
       )
+      if (!active) rememberScroll()
       if (!target) return
       // Leave propagation intact: Next Link's onClick (including menu close) still runs.
       event.preventDefault()
@@ -442,6 +502,8 @@ export function RouteTransitions({
       observe(detail.pathname)
     }
     function onPopState() {
+      popstateHref = window.location.href
+      syncEntry(false, true)
       const path = window.location.pathname
       if (active || normalizePathname(path) !== normalizePathname(lastPath))
         observed(path)
@@ -449,11 +511,23 @@ export function RouteTransitions({
     function onResize() {
       if (active) progress(signal.progress, signal.phase === 'revealing')
     }
+    function onScroll() {
+      if (!active) rememberScroll()
+    }
+    function onHashChange() {
+      // Fragment navigation may inherit the source entry's state. Split only
+      // new entries; popstate has already selected its own existing key.
+      syncEntry(popstateHref !== window.location.href, true)
+      popstateHref = null
+      if (!active) rememberScroll()
+    }
 
     document.addEventListener('click', onClick, true)
     window.addEventListener(ROUTE_READY_EVENT, onReady)
     window.addEventListener('popstate', onPopState)
     window.addEventListener('resize', onResize)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('hashchange', onHashChange)
     const controller: Controller = {
       observe,
       dispose: () => {
@@ -470,6 +544,8 @@ export function RouteTransitions({
         window.removeEventListener(ROUTE_READY_EVENT, onReady)
         window.removeEventListener('popstate', onPopState)
         window.removeEventListener('resize', onResize)
+        window.removeEventListener('scroll', onScroll)
+        window.removeEventListener('hashchange', onHashChange)
       },
     }
     controllerRef.current = controller

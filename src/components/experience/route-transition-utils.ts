@@ -1,4 +1,45 @@
 export const ROUTE_READY_EVENT = 'kondax:route-ready'
+export const SCROLL_ENTRY_KEY = '__kondaxScrollEntry'
+
+export type ScrollPosition = { x: number; y: number }
+
+export function scrollEntryKey(state: unknown): string | null {
+  if (!state || typeof state !== 'object') return null
+  const key = (state as Record<string, unknown>)[SCROLL_ENTRY_KEY]
+  return typeof key === 'string' && key.length > 0 ? key : null
+}
+
+/** Preserve the router's state verbatim; only our own metadata is added. */
+export function withScrollEntry(
+  state: unknown,
+  key: string,
+): Record<string, unknown> {
+  return {
+    ...(state && typeof state === 'object' ? state : {}),
+    [SCROLL_ENTRY_KEY]: key,
+  }
+}
+
+export class ScrollPositions {
+  private positions = new Map<string, ScrollPosition>()
+  constructor(private limit = 100) {}
+
+  remember(key: string | null, position: ScrollPosition) {
+    if (!key) return
+    this.positions.delete(key)
+    this.positions.set(key, { ...position })
+    while (this.positions.size > this.limit) {
+      const oldest = this.positions.keys().next().value
+      if (oldest === undefined) break
+      this.positions.delete(oldest)
+    }
+  }
+
+  get(key: string | null) {
+    const position = key ? this.positions.get(key) : undefined
+    return position ? { ...position } : null
+  }
+}
 
 export type RouteReadyDetail = { pathname: string; element: HTMLElement }
 

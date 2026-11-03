@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { act, cleanup, fireEvent, render } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { createTransitionSignal } from './experience-state'
-import { ROUTE_READY_EVENT } from './route-transition-utils'
+import { ROUTE_READY_EVENT, scrollEntryKey } from './route-transition-utils'
 import { RouteTransitions } from './RouteTransitions'
 
 const router = vi.hoisted(() => ({ push: vi.fn(), prefetch: vi.fn() }))
@@ -19,6 +19,9 @@ function mount() {
   const view = render(
     <RouteTransitions signal={signal}>
       <header>
+        <Link href="/ja" prefetch={false}>
+          Home
+        </Link>
         <Link href="/ja/about" prefetch={false}>
           About
         </Link>
@@ -59,13 +62,43 @@ async function advance(ms: number) {
   })
 }
 
-function committed(path: string) {
-  window.history.replaceState({}, '', path)
+function committed(path: string, state: unknown = {}) {
+  window.history.replaceState(state, '', path)
   const element = document.getElementById('route-marker')!
   element.dataset.routeReady = path
   window.dispatchEvent(
     new CustomEvent(ROUTE_READY_EVENT, { detail: { pathname: path, element } }),
   )
+}
+
+function scrollFixture() {
+  let y = 0
+  vi.spyOn(window, 'scrollY', 'get').mockImplementation(() => y)
+  vi.mocked(window.scrollTo).mockImplementation(
+    (optionsOrX?: ScrollToOptions | number, top?: number) => {
+      y = typeof optionsOrX === 'object' ? (optionsOrX.top ?? y) : (top ?? y)
+    },
+  )
+  return {
+    set(value: number) {
+      y = value
+      window.dispatchEvent(new Event('scroll'))
+    },
+    get: () => y,
+  }
+}
+
+async function popTo(
+  path: string,
+  state: unknown,
+  nativeClamp: number,
+  scroll: ReturnType<typeof scrollFixture>,
+) {
+  window.history.replaceState(state, '', path)
+  window.dispatchEvent(new PopStateEvent('popstate', { state }))
+  committed(path, state)
+  scroll.set(nativeClamp)
+  await advance(750)
 }
 
 beforeEach(() => {
@@ -228,5 +261,76 @@ describe('ルート切り替えの所有と回復', () => {
     expect(main.inert).toBe(false)
     expect(reload).toHaveBeenCalledTimes(1)
     expect(router.push).toHaveBeenCalledTimes(1)
+  })
+
+  it('短い旧DOMにclampされた履歴位置を、対象DOMの描画後に復元する', async () => {
+    const scroll = scrollFixture()
+    const { getByText, signal } = mount()
+    scroll.set(1300)
+    const home = window.history.state
+    fireEvent.click(getByText('About'))
+    await advance(400)
+    committed('/ja/about')
+    await advance(750)
+    const about = window.history.state
+    expect(scrollEntryKey(home)).not.toBe(scrollEntryKey(about))
+    scroll.set(500)
+    const length = window.history.length
+    await popTo('/ja', home, 794, scroll)
+    expect(scroll.get()).toBe(1300)
+    await popTo('/ja/about', about, 100, scroll)
+    expect(scroll.get()).toBe(500)
+    expect(window.history.length).toBe(length)
+    expect(signal.phase).toBe('idle')
+    expect(router.push).toHaveBeenCalledTimes(1)
+  })
+
+  it('同じURLへの別push entryを別々に保存する', async () => {
+    const scroll = scrollFixture()
+    const { getByText } = mount()
+    scroll.set(1300)
+    const firstHome = window.history.state
+    fireEvent.click(getByText('About'))
+    await advance(400)
+    committed('/ja/about')
+    await advance(750)
+    scroll.set(100)
+    const firstAbout = window.history.state
+    fireEvent.click(getByText('Home'))
+    await advance(400)
+    committed('/ja')
+    await advance(750)
+    scroll.set(400)
+    const secondHome = window.history.state
+    expect(scrollEntryKey(firstHome)).not.toBe(scrollEntryKey(secondHome))
+    fireEvent.click(getByText('About'))
+    await advance(400)
+    committed('/ja/about')
+    await advance(750)
+    await popTo('/ja', secondHome, 250, scroll)
+    expect(scroll.get()).toBe(400)
+    await popTo('/ja/about', firstAbout, 0, scroll)
+    expect(scroll.get()).toBe(100)
+    await popTo('/ja', firstHome, 794, scroll)
+    expect(scroll.get()).toBe(1300)
+  })
+
+  it('新hash entryがsourceのkeyを継承しても、以前の位置を上書きしない', async () => {
+    const scroll = scrollFixture()
+    const { getByText } = mount()
+    scroll.set(1300)
+    const home = window.history.state
+    window.history.pushState({ ...home }, '', '/ja#services')
+    window.dispatchEvent(new HashChangeEvent('hashchange'))
+    const fragment = window.history.state
+    expect(scrollEntryKey(fragment)).not.toBe(scrollEntryKey(home))
+    scroll.set(900)
+    fireEvent.click(getByText('About'))
+    await advance(400)
+    committed('/ja/about')
+    await advance(750)
+    await popTo('/ja', home, 794, scroll)
+    expect(scroll.get()).toBe(1300)
+    expect(window.history.scrollRestoration).not.toBe('manual')
   })
 })

@@ -4,10 +4,42 @@ import {
   getTransitionTarget,
   isCommittedRouteReady,
   type NavigationIntent,
+  ScrollPositions,
+  scrollEntryKey,
+  withScrollEntry,
 } from './route-transition-utils'
 
 const current = 'https://kondax.com/ja/about?ref=site'
 const intent: NavigationIntent = { href: '/ja/work?view=products', button: 0 }
+
+describe('履歴entryごとのscroll保存', () => {
+  it('公開history.stateの既存値を保持し、独自namespaceだけ追加する', () => {
+    const routerState = Object.freeze({ route: '/ja', nested: { keep: true } })
+    const next = withScrollEntry(routerState, 'entry-1')
+    expect(next.route).toBe('/ja')
+    expect(next.nested).toBe(routerState.nested)
+    expect(scrollEntryKey(next)).toBe('entry-1')
+    expect(scrollEntryKey(routerState)).toBeNull()
+  })
+  it('同じURLでも異なるentry keyの位置を混同しない', () => {
+    const cache = new ScrollPositions()
+    cache.remember('home-first', { x: 0, y: 1300 })
+    cache.remember('home-second', { x: 0, y: 400 })
+    expect(cache.get('home-first')).toEqual({ x: 0, y: 1300 })
+    expect(cache.get('home-second')).toEqual({ x: 0, y: 400 })
+    expect(cache.get('unknown')).toBeNull()
+  })
+  it('履歴cacheの件数を制限し、最近更新したentryは保持する', () => {
+    const cache = new ScrollPositions(2)
+    cache.remember('a', { x: 0, y: 10 })
+    cache.remember('b', { x: 0, y: 20 })
+    cache.remember('a', { x: 0, y: 15 })
+    cache.remember('c', { x: 0, y: 30 })
+    expect(cache.get('a')).toEqual({ x: 0, y: 15 })
+    expect(cache.get('b')).toBeNull()
+    expect(cache.get('c')).toEqual({ x: 0, y: 30 })
+  })
+})
 
 describe('ルーターへ渡すリンクの境界', () => {
   it('同一origin・localeの別ページだけを扱い、queryを保持する', () => {
