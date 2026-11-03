@@ -189,11 +189,6 @@ function finite(value: number, fallback = 0) {
 function clamp(value: number, min = 0, max = 1) {
   return Math.max(min, Math.min(max, finite(value)))
 }
-function smoothstep(from: number, to: number, value: number) {
-  const t = clamp((value - from) / (to - from))
-  return t * t * (3 - 2 * t)
-}
-
 /** Rendering only. The experience provider owns the timeline, inputs and RAF. */
 export function createExperienceRenderer(
   host: HTMLElement,
@@ -364,33 +359,15 @@ export function createExperienceRenderer(
           resize(frame.width, frame.height, pixelRatio)
         const transition = clamp(frame.transition)
         const time = finite(frame.time)
-        const baseOpacity = Math.max(
-          clamp(frame.opacity),
-          smoothstep(0.08, 0.8, transition) * 0.85,
-        )
-        const opacity =
-          baseOpacity * (1 - smoothstep(0.58, 0.94, transition) * 0.6)
+        const opacity = clamp(frame.opacity)
         const focus = clamp(frame.focus)
-        const size = Math.max(
-          clamp(frame.size, 0, Math.max(width, height) * 2),
-          Math.min(width, height) * smoothstep(0.1, 0.8, transition) * 0.6,
-        )
-        const pull = smoothstep(0.12, 0.78, transition) * 0.85
+        const size = clamp(frame.size, 0, Math.max(width, height) * 2)
         const originX = clamp(frame.originX)
         const originY = clamp(frame.originY)
         const x = finite(frame.centerX, width / 2)
         const y = finite(frame.centerY, height / 2)
-        const holdingX = (0.35 + originX * 0.3) * width
-        const holdingY = (0.35 + originY * 0.3) * height
-        sculpture.position.set(
-          x + (holdingX - x) * pull - width / 2,
-          height / 2 - (y + (holdingY - y) * pull),
-          transition * 320,
-        )
-        sculpture.scale.setScalar(
-          (size / 3.2) *
-            (1 + Math.sin(transition * Math.PI) * 1.5 + transition * 0.25),
-        )
+        sculpture.position.set(x - width / 2, height / 2 - y, transition * 320)
+        sculpture.scale.setScalar(size / 3.2)
         sculpture.rotation.set(
           finite(frame.rotationX),
           finite(frame.rotationY),

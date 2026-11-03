@@ -7,7 +7,9 @@ import {
   damp,
   smoothProgress,
   resolveScenePose,
+  resolveTransitionPose,
   type SceneAnchor,
+  type SceneVisualPose,
 } from './scene-timeline'
 import type {
   ExperienceRenderer,
@@ -58,6 +60,10 @@ export function PersistentScene({ signal, onReady, onUnavailable }: Props) {
     }[] = []
     let previousMotionDisabled: boolean | undefined
     let previousPhase = signal.phase
+    let flightSource: SceneVisualPose | null = null
+    let flightStarted = 0
+    let flightRequest = signal.requestId
+    let revealRotation: SceneVisualPose | undefined
     let pointerX = 0
     let pointerY = 0
     let pointerTarget: Element | null = null
@@ -121,12 +127,17 @@ export function PersistentScene({ signal, onReady, onUnavailable }: Props) {
           const chapter = Number(element.dataset.flowChapter || 0)
           const kind = element.dataset.flowAnchor
           const defaults = kind === 'work' || kind === 'approach'
+          const section =
+            kind === 'services'
+              ? element.closest('section')?.getBoundingClientRect()
+              : null
           return [
             {
               kind,
               x: defaults
                 ? width * (compact ? 0.94 : 0.9)
-                : rect.left + rect.width / 2,
+                : rect.left +
+                  rect.width * (kind === 'services' && !compact ? 0.48 : 0.5),
               y:
                 rect.top +
                 scroll +
@@ -138,12 +149,21 @@ export function PersistentScene({ signal, onReady, onUnavailable }: Props) {
                   ? 125
                   : 215
                 : Math.min(
-                    rect.width * 0.92,
-                    rect.height * (kind === 'hero' ? 0.82 : 0.94),
+                    rect.width * (kind === 'services' ? 0.8 : 0.92),
+                    rect.height *
+                      (kind === 'hero'
+                        ? 0.82
+                        : kind === 'services'
+                          ? 0.84
+                          : 0.94),
                   ),
               chapter,
               morph: Number(element.dataset.flowMorph || 0),
               opacity: defaults ? 0.13 : 1,
+              holdUntil:
+                section && !compact
+                  ? section.bottom + scroll - height * 0.08
+                  : undefined,
             },
           ]
         })
@@ -189,6 +209,18 @@ export function PersistentScene({ signal, onReady, onUnavailable }: Props) {
       const motionDisabled = signal.paused || reduced.matches
       if (signal.phase !== previousPhase) {
         needsMeasure = true
+        if (signal.phase === 'revealing')
+          revealRotation = {
+            x: frame.centerX,
+            y: frame.centerY,
+            size: frame.size,
+            rotationX: frame.rotationX,
+            rotationY: frame.rotationY,
+            rotationZ: frame.rotationZ,
+            morph: frame.morph,
+            chapter: frame.chapter,
+            opacity: frame.opacity,
+          }
         previousPhase = signal.phase
       }
       if (needsResize && renderer) {
@@ -261,27 +293,67 @@ export function PersistentScene({ signal, onReady, onUnavailable }: Props) {
       const focus = hovered ? Number(hovered.dataset.sceneFocus || 0) : 0
       frame.focus = damp(frame.focus, focus, 8, delta)
       const transition = clamp(signal.progress)
-      const blend = transition * transition * (3 - 2 * transition)
-      const mix = (from: number, to: number) => from + (to - from) * blend
+      const baseVisual: SceneVisualPose = {
+        x: pose.x,
+        y: pose.y,
+        size: pose.size,
+        rotationX:
+          0.22 + Math.sin(pose.chapter * 1.1) * 0.24 + frame.pointerY * 0.16,
+        rotationY: -0.32 + pose.chapter * 0.65 + frame.pointerX * 0.24,
+        rotationZ: -0.18 + Math.sin(pose.chapter * 1.8) * 0.16,
+        morph: pose.morph,
+        chapter: pose.chapter,
+        opacity: pose.opacity * visibility * readingOpacity,
+      }
+      if (
+        signal.phase !== 'idle' &&
+        (!flightSource ||
+          (flightRequest !== signal.requestId && transition === 0))
+      ) {
+        flightSource = {
+          x: frame.centerX,
+          y: frame.centerY,
+          size: frame.size,
+          rotationX: frame.rotationX,
+          rotationY: frame.rotationY,
+          rotationZ: frame.rotationZ,
+          morph: frame.morph,
+          chapter: frame.chapter,
+          opacity: frame.opacity,
+        }
+        flightStarted = time
+        revealRotation = undefined
+      }
+      flightRequest = signal.requestId
+      const visual =
+        flightSource && signal.phase !== 'idle' && !motionDisabled
+          ? resolveTransitionPose(
+              signal.phase === 'revealing' ? baseVisual : flightSource,
+              flightSource,
+              time - flightStarted,
+              transition,
+              width,
+              height,
+              revealRotation,
+            )
+          : baseVisual
+      if (signal.phase === 'idle') {
+        flightSource = null
+        revealRotation = undefined
+      }
       frame.width = width
       frame.height = height
       frame.delta = delta
       frame.time = time
-      frame.centerX = mix(pose.x, width * 0.5)
-      frame.centerY = mix(pose.y, height * 0.5)
-      frame.size = mix(pose.size, Math.min(width, height) * 0.66)
-      frame.rotationX = mix(
-        0.22 + Math.sin(pose.chapter * 1.1) * 0.24 + frame.pointerY * 0.16,
-        0.5,
-      )
-      frame.rotationY = mix(
-        -0.32 + pose.chapter * 0.65 + frame.pointerX * 0.24,
-        1.5,
-      )
-      frame.rotationZ = mix(-0.18 + Math.sin(pose.chapter * 1.8) * 0.16, -0.5)
-      frame.morph = mix(pose.morph, 0.85)
-      frame.chapter = pose.chapter
-      frame.opacity = mix(pose.opacity * visibility * readingOpacity, 1)
+      frame.centerX = visual.x
+      frame.centerY = visual.y
+      frame.size = visual.size
+      frame.rotationX = visual.rotationX
+      frame.rotationY = visual.rotationY
+      frame.rotationZ = visual.rotationZ
+      frame.morph = visual.morph
+      frame.chapter = visual.chapter
+      frame.opacity = visual.opacity
       frame.transition = transition
       frame.originX = signal.originX
       frame.originY = signal.originY

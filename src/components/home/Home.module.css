@@ -197,7 +197,6 @@
   min-width: 0;
   position: relative;
   z-index: 3;
-  background: #fff;
 }
 .service {
   padding-bottom: 40px;
@@ -218,14 +217,11 @@
 .serviceGrid .visualFrame {
   height: 145px;
   margin-bottom: 24px;
-  background: linear-gradient(115deg, #f2f4fd, #f8f9fc);
 }
 .visualFrame {
   height: 174px;
   display: grid;
   place-items: center;
-  background: #f7f8fc;
-  border-radius: 8px;
   margin-bottom: 26px;
   overflow: hidden;
 }

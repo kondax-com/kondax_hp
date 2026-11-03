@@ -10,6 +10,8 @@ import {
 import {
   ROUTE_READY_EVENT,
   coverRadius,
+  easeTransition,
+  transitionCoverage,
   getTransitionTarget,
   isCommittedRouteReady,
   isVisibleRoute,
@@ -34,6 +36,8 @@ type Request = Intent & {
   kind: 'push' | 'observed'
   entryKey: string | null
   restorePosition: ScrollPosition | null
+  coverFinished: Promise<boolean>
+  completeCover: (completed: boolean) => void
   abort: AbortController
   watchdog?: ReturnType<typeof setTimeout>
 }
@@ -164,16 +168,17 @@ export function RouteTransitions({
         signal.originY,
       )
       const shortMotion = reduced()
+      const coverage = transitionCoverage(signal.progress)
       cover!.dataset.active = signal.progress > 0 ? 'true' : 'false'
       cover!.style.clipPath = shortMotion
         ? 'none'
-        : `circle(${radius * signal.progress}px at ${signal.originX * 100}% ${signal.originY * 100}%)`
-      cover!.style.opacity = shortMotion ? String(signal.progress) : ''
+        : `circle(${radius * coverage}px at ${signal.originX * 100}% ${signal.originY * 100}%)`
+      cover!.style.opacity = shortMotion ? String(coverage) : ''
       cover!.style.setProperty('--flow-offset', `${signal.progress * 44}px`)
       const element = main()
       if (element) {
         const snapshot = remember(element)
-        element.style.opacity = String(1 - signal.progress)
+        element.style.opacity = String(1 - coverage)
         const offset = shortMotion ? 0 : signal.progress * (entering ? 14 : -12)
         element.style.transform = `${snapshot.transform} translate3d(0, ${offset}px, 0)`
       }
@@ -209,6 +214,7 @@ export function RouteTransitions({
           normalizePathname(window.location.pathname)
       clearTimeout(request.watchdog)
       request.abort.abort()
+      request.completeCover(false)
       if (failed) phase('recovering')
       restore()
       active = null
@@ -245,6 +251,7 @@ export function RouteTransitions({
       to: number,
       duration: number,
       entering = false,
+      onProgress?: () => void,
     ) {
       return new Promise<boolean>((resolve) => {
         if (!current(request)) return resolve(false)
@@ -261,8 +268,10 @@ export function RouteTransitions({
           const t = reduced()
             ? 1
             : Math.min(1, Math.max(0, (time - started) / duration))
-          const eased = t * t * (3 - 2 * t)
+          const eased = easeTransition(t)
           progress(from + (to - from) * eased, entering)
+          onProgress?.()
+          if (!current(request)) return abort()
           if (t < 1) frame = requestAnimationFrame(tick)
           else {
             request.abort.signal.removeEventListener('abort', abort)
@@ -308,7 +317,9 @@ export function RouteTransitions({
       if (
         !current(request) ||
         !(await frame(request)) ||
-        !(await frame(request))
+        !(await frame(request)) ||
+        !(await request.coverFinished) ||
+        !current(request)
       )
         return
       clearTimeout(request.watchdog)
@@ -334,12 +345,8 @@ export function RouteTransitions({
       request.watchdog = setTimeout(() => finish(request, true), 8000)
     }
 
-    async function coverAndCommit(request: Request) {
-      if (!(await frame(request))) return
-      phase('covering')
-      busy(true)
-      if (!(await animate(request, 1, 280))) return
-      if (!current(request)) return
+    function commit(request: Request) {
+      if (!current(request) || request.committed) return
       request.committed = true
       phase('committing')
       watch(request)
@@ -350,12 +357,26 @@ export function RouteTransitions({
           readyElement(request.pathname) &&
           normalizePathname(window.location.pathname) ===
             normalizePathname(request.pathname)
-        ) {
+        )
           void ready(request, request.pathname)
-        }
       } catch {
         finish(request, true)
       }
+    }
+
+    async function coverAndCommit(request: Request) {
+      if (!(await frame(request))) {
+        request.completeCover(false)
+        return
+      }
+      phase('covering')
+      busy(true)
+      const covered = await animate(request, 1, 280, false, () => {
+        // The CSS and shader masks are already fully opaque before navigation.
+        // Let route/decode/paint preparation overlap the remaining carrier motion.
+        if (transitionCoverage(signal.progress) === 1) commit(request)
+      })
+      request.completeCover(covered)
     }
 
     function start(intent: Intent) {
@@ -368,8 +389,13 @@ export function RouteTransitions({
       const previous = active
       if (previous) {
         previous.abort.abort()
+        previous.completeCover(false)
         clearTimeout(previous.watchdog)
       }
+      let completeCover: (completed: boolean) => void = () => {}
+      const coverFinished = new Promise<boolean>((resolve) => {
+        completeCover = resolve
+      })
       const request: Request = {
         ...intent,
         id: ++signal.requestId,
@@ -379,6 +405,8 @@ export function RouteTransitions({
         kind: 'push',
         entryKey: null,
         restorePosition: null,
+        coverFinished,
+        completeCover,
         abort: new AbortController(),
       }
       active = request
@@ -414,6 +442,7 @@ export function RouteTransitions({
       }
       if (active) {
         active.abort.abort()
+        active.completeCover(false)
         clearTimeout(active.watchdog)
       }
       queued = null
@@ -430,6 +459,8 @@ export function RouteTransitions({
         kind: 'observed',
         entryKey,
         restorePosition: positions.get(entryKey),
+        coverFinished: Promise.resolve(true),
+        completeCover: () => {},
         abort: new AbortController(),
       }
       active = request
@@ -534,6 +565,7 @@ export function RouteTransitions({
         disposed = true
         if (active) {
           active.abort.abort()
+          active.completeCover(false)
           clearTimeout(active.watchdog)
         }
         active = null

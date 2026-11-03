@@ -5,7 +5,12 @@ import Link from 'next/link'
 import { act, cleanup, fireEvent, render } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { createTransitionSignal } from './experience-state'
-import { ROUTE_READY_EVENT, scrollEntryKey } from './route-transition-utils'
+import {
+  ROUTE_READY_EVENT,
+  scrollEntryKey,
+  TRANSITION_OPAQUE_PROGRESS,
+  coverRadius,
+} from './route-transition-utils'
 import { RouteTransitions } from './RouteTransitions'
 
 const router = vi.hoisted(() => ({ push: vi.fn(), prefetch: vi.fn() }))
@@ -113,8 +118,8 @@ beforeEach(() => {
   })
   window.history.replaceState({}, '', '/ja')
   vi.spyOn(window, 'scrollTo').mockImplementation(() => {})
-  router.push.mockClear()
-  router.prefetch.mockClear()
+  router.push.mockReset()
+  router.prefetch.mockReset()
 })
 afterEach(() => {
   cleanup()
@@ -123,6 +128,61 @@ afterEach(() => {
 })
 
 describe('ルート切り替えの所有と回復', () => {
+  it('完全opaqueを先に確保し、coverの残りと新画面準備を重ねる', async () => {
+    const { getByText, signal, main } = mount()
+    const captures: { progress: number; opacity: string; clip: string }[] = []
+    router.push.mockImplementation(() => {
+      captures.push({
+        progress: signal.progress,
+        opacity: main.style.opacity,
+        clip: (document.querySelector('[data-route-transition]') as HTMLElement)
+          .style.clipPath,
+      })
+    })
+    fireEvent.click(getByText('About'))
+    await advance(240)
+    expect(captures).toHaveLength(1)
+    expect(captures[0].progress).toBeGreaterThanOrEqual(
+      TRANSITION_OPAQUE_PROGRESS,
+    )
+    expect(captures[0].progress).toBeLessThan(1)
+    expect(captures[0].opacity).toBe('0')
+    const radius = Number(/circle\(([\d.]+)px/.exec(captures[0].clip)?.[1])
+    expect(radius).toBeGreaterThanOrEqual(
+      coverRadius(
+        window.innerWidth,
+        window.innerHeight,
+        signal.originX,
+        signal.originY,
+      ),
+    )
+    committed('/ja/about')
+    await advance(32)
+    // DOM readiness alone cannot reverse the still-running cover writer.
+    expect(signal.phase).toBe('committing')
+    expect(signal.progress).toBeLessThan(1)
+    await advance(64)
+    expect(signal.phase).toBe('revealing')
+    await advance(650)
+    expect(signal.phase).toBe('idle')
+  })
+
+  it('coverが先に終わっても、遅い新DOMが準備できるまで現さない', async () => {
+    const { getByText, signal, main } = mount()
+    fireEvent.click(getByText('About'))
+    await advance(500)
+    expect(signal.progress).toBe(1)
+    expect(signal.phase).toBe('committing')
+    expect(main.style.opacity).toBe('0')
+    await advance(250)
+    expect(signal.phase).toBe('committing')
+    committed('/ja/about')
+    await advance(80)
+    expect(signal.phase).toBe('revealing')
+    await advance(600)
+    expect(signal.phase).toBe('idle')
+  })
+
   it('準備中の連打は最後だけpushし、新DOMのready後に操作とfocusを復元する', async () => {
     const { getByText, signal, main } = mount()
     fireEvent.click(getByText('About'))

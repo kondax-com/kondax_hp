@@ -1,5 +1,17 @@
 export const ROUTE_READY_EVENT = 'kondax:route-ready'
 export const SCROLL_ENTRY_KEY = '__kondaxScrollEntry'
+export const TRANSITION_OPAQUE_PROGRESS = 0.82
+
+/** The last part of covering can overlap route preparation behind an opaque mask. */
+export function transitionCoverage(progress: number) {
+  return Math.min(1, Math.max(0, progress / TRANSITION_OPAQUE_PROGRESS))
+}
+
+/** Zero velocity and acceleration at either end avoid an abrupt carrier handoff. */
+export function easeTransition(progress: number) {
+  const t = Math.min(1, Math.max(0, progress))
+  return t * t * t * (t * (t * 6 - 15) + 10)
+}
 
 export type ScrollPosition = { x: number; y: number }
 

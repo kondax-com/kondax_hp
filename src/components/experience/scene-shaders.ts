@@ -1,3 +1,5 @@
+import { TRANSITION_OPAQUE_PROGRESS } from './route-transition-utils'
+
 export const ribbonVertexShader = /* glsl */ `
   attribute vec3 aOrbitPosition;
   attribute vec3 aOrbitNormal;
@@ -107,8 +109,9 @@ export const portalFragmentShader = /* glsl */ `
   void main() {
     vec2 p = (vUv - uOrigin) * vec2(uAspect, 1.0);
     float distanceFromOrigin = length(p);
-    float radius = pow(uProgress, 0.74) * (length(vec2(uAspect, 1.0)) + 0.3);
-    float coverage = (1.0 - smoothstep(radius - 0.12, radius + 0.16, distanceFromOrigin)) * smoothstep(0.0, 0.12, uProgress);
+    float coveredProgress = clamp(uProgress / ${TRANSITION_OPAQUE_PROGRESS.toFixed(2)}, 0.0, 1.0);
+    float radius = pow(coveredProgress, 0.74) * (length(vec2(uAspect, 1.0)) + 0.3);
+    float coverage = (1.0 - smoothstep(radius - 0.12, radius + 0.16, distanceFromOrigin)) * smoothstep(0.0, 0.12, coveredProgress);
 
     vec2 q = p + vec2(sin(p.y * 4.0 + uTime * 0.16), cos(p.x * 3.0 - uTime * 0.12)) * 0.11;
     float field = 0.5 + 0.25 * sin(q.x * 7.0 + q.y * 4.0 - uTime * 0.24)
@@ -120,9 +123,7 @@ export const portalFragmentShader = /* glsl */ `
     vec3 color = mix(uCover, uLilac, field * 0.19);
     color = mix(color, uIndigo, contour * 0.035);
     color += vec3(0.05) * edge;
-    float settled = smoothstep(0.78, 1.0, uProgress);
-    color = mix(color, uCover, settled);
-    coverage = mix(coverage, 1.0, settled);
+    coverage = mix(coverage, 1.0, smoothstep(${(TRANSITION_OPAQUE_PROGRESS - 0.1).toFixed(2)}, ${TRANSITION_OPAQUE_PROGRESS.toFixed(2)}, uProgress));
     gl_FragColor = vec4(color, coverage);
     #include <colorspace_fragment>
   }

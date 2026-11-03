@@ -35,6 +35,21 @@
     transparent 41px 79px
   );
   transform: rotate(-16deg) translate3d(0, var(--flow-offset, 0px), 0);
+  animation: cover-current 2.6s ease-in-out infinite alternate;
+  animation-play-state: paused;
+}
+.cover[data-active='true']::after {
+  animation-play-state: running;
+}
+@keyframes cover-current {
+  from {
+    transform: rotate(-16deg)
+      translate3d(0, calc(var(--flow-offset, 0px) - 18px), 0);
+  }
+  to {
+    transform: rotate(-16deg)
+      translate3d(0, calc(var(--flow-offset, 0px) + 18px), 0);
+  }
 }
 .announcement {
   position: absolute;

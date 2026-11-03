@@ -7,10 +7,41 @@ import {
   ScrollPositions,
   scrollEntryKey,
   withScrollEntry,
+  TRANSITION_OPAQUE_PROGRESS,
+  transitionCoverage,
+  easeTransition,
 } from './route-transition-utils'
 
 const current = 'https://kondax.com/ja/about?ref=site'
 const intent: NavigationIntent = { href: '/ja/work?view=products', button: 0 }
+
+describe('連続した遷移のenvelope', () => {
+  it('commit閾値で全域を覆い、範囲外へ外挿しない', () => {
+    expect(transitionCoverage(0)).toBe(0)
+    expect(transitionCoverage(TRANSITION_OPAQUE_PROGRESS)).toBe(1)
+    expect(transitionCoverage(1)).toBe(1)
+    expect(transitionCoverage(-1)).toBe(0)
+  })
+  it('端点の速度と加速度をともに0へ近づけ、単調に進む', () => {
+    expect(easeTransition(0)).toBe(0)
+    expect(easeTransition(1)).toBe(1)
+    const h = 0.001
+    expect(easeTransition(h) / h).toBeLessThan(0.0001)
+    expect((1 - easeTransition(1 - h)) / h).toBeLessThan(0.0001)
+    expect(
+      Math.abs((easeTransition(2 * h) - 2 * easeTransition(h)) / (h * h)),
+    ).toBeLessThan(0.1)
+    expect(
+      Math.abs(
+        (1 - 2 * easeTransition(1 - h) + easeTransition(1 - 2 * h)) / (h * h),
+      ),
+    ).toBeLessThan(0.1)
+    for (let i = 1; i <= 100; i++)
+      expect(easeTransition(i / 100)).toBeGreaterThanOrEqual(
+        easeTransition((i - 1) / 100),
+      )
+  })
+})
 
 describe('履歴entryごとのscroll保存', () => {
   it('公開history.stateの既存値を保持し、独自namespaceだけ追加する', () => {
